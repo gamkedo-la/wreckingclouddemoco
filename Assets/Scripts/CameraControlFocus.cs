@@ -17,7 +17,8 @@ public class CameraControlFocus : MonoBehaviour {
 	void Update () {
 		panLong -= Input.GetAxis("Mouse Y") * 100.0f * Time.deltaTime;
 		panLat += Input.GetAxis("Mouse X") * 100.0f * Time.deltaTime;
-		zoomIn -= Input.GetAxis("Mouse ScrollWheel") * 80.0f * Time.deltaTime;
+		//zoomIn -= Input.GetAxis("Mouse ScrollWheel") * 80.0f * Time.deltaTime;
+		transform.position += Input.GetAxis("Mouse ScrollWheel") * 80.0f * Time.deltaTime * transform.forward;
 
 		panLong = Mathf.Clamp(panLong,-3.0f,89.5f);
 		zoomIn = Mathf.Clamp(zoomIn,35.0f,120.0f);
