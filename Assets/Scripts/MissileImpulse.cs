@@ -45,7 +45,10 @@ public class MissileImpulse : MonoBehaviour {
 		if(transform.childCount > 0) {
 			Transform effectsChild = transform.GetChild(0);
 			TrailRenderer trScript = effectsChild.GetComponent<TrailRenderer>();
-			Destroy(effectsChild.gameObject, trScript.time);
+			ParticleSystem psScript = effectsChild.GetComponent<ParticleSystem>();
+			ParticleSystem.EmissionModule tempEmit = psScript.emission;
+			tempEmit.enabled = false;
+			Destroy(effectsChild.gameObject, psScript.startLifetime);
 			BlastForce();
 			effectsChild.parent = null;
 			Destroy(gameObject);
