@@ -3,11 +3,7 @@ using System.Collections;
 
 public class MissileImpulse : MonoBehaviour {
 	Rigidbody rb;
-
-	// explosion
-	float range = 8.0f;
-	float power = 2500.0f;
-	float upwardsPowerBoost = 3.0f;
+	PotentialExploder selfExplode;
 
 	// movement
 	float maxSpeed = 80.0f;
@@ -17,6 +13,7 @@ public class MissileImpulse : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();
+		selfExplode = GetComponent<PotentialExploder>();
 	}
 	
 	// Update is called once per frame
@@ -30,17 +27,7 @@ public class MissileImpulse : MonoBehaviour {
 			speedNow = maxSpeed;
 		}
 	}
-
-	public void BlastForce() {
-		Vector3 explosionPos = transform.position;
-		Collider[] colliders = Physics.OverlapSphere(explosionPos, range);
-		foreach (Collider hit in colliders) {
-			Rigidbody rb = hit.GetComponent<Rigidbody>();
-			if (rb != null)
-				rb.AddExplosionForce(power, explosionPos, range, upwardsPowerBoost);
-		}
-	}
-
+		
 	public void OnCollisionEnter(Collision hitFacts) {
 		if(transform.childCount > 0) {
 			Transform effectsChild = transform.GetChild(0);
@@ -49,7 +36,7 @@ public class MissileImpulse : MonoBehaviour {
 			ParticleSystem.EmissionModule tempEmit = psScript.emission;
 			tempEmit.enabled = false;
 			Destroy(effectsChild.gameObject, psScript.startLifetime);
-			BlastForce();
+			selfExplode.BlastForce();
 			effectsChild.parent = null;
 			Destroy(gameObject);
 			if(hitFacts.gameObject.layer != LayerMask.NameToLayer("Terrain")) {

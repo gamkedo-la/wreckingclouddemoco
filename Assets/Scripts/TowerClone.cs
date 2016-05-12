@@ -19,6 +19,9 @@ public class TowerClone : MonoBehaviour {
 						t * transform.localScale.y * 1.01f * transform.up,
 						transform.rotation);
 					clonedGO.transform.parent = newParent.transform;
+					if(Random.Range(0, 255) < 2) {
+						clonedGO.layer = LayerMask.NameToLayer("Explosive");
+					}
 					TowerClone wasTC = clonedGO.GetComponent<TowerClone>();
 					wasTC.enabled = false;
 					Destroy(wasTC);
