@@ -2,9 +2,15 @@
 using System.Collections;
 
 public class TowerClone : MonoBehaviour {
-	int cubesWide = 4;
-	int cubesLong = 9;
-	int cubesTall = 15;
+	int cubesWide;
+	int cubesLong;
+	int cubesTall;
+
+	void Start() {
+		cubesWide = 3+Random.Range(0,2);
+		cubesLong = 4+Random.Range(0,2);
+		cubesTall = 5+Random.Range(0,5);
+	}
 
 	// Use this for initialization
 	void LateUpdate () {

@@ -36,10 +36,14 @@ public class PotentialExploder : MonoBehaviour {
 				}
 			}
 		}
-		GameObject fire = Instantiate (fireParticles, gameObject.transform.position, Quaternion.identity) as GameObject;
-		GameObject smoke = Instantiate (smokeParticles, gameObject.transform.position, Quaternion.identity) as GameObject;
-		Destroy (fire, 6);
-		Destroy (smoke, 6);
+		if (fireParticles) {
+			GameObject fire = Instantiate (fireParticles, gameObject.transform.position, Quaternion.identity) as GameObject;
+			Destroy (fire, 6);
+		}
+		if (smokeParticles) {
+			GameObject smoke = Instantiate (smokeParticles, gameObject.transform.position, Quaternion.identity) as GameObject;
+			Destroy (smoke, 6);
+		}
 		Destroy(gameObject);
 	}
 

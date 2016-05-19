@@ -29,6 +29,9 @@ public class MissileImpulse : MonoBehaviour {
 	}
 		
 	public void OnCollisionEnter(Collision hitFacts) {
+		if (hitFacts.collider.gameObject.layer == LayerMask.NameToLayer ("Player")) {
+			return;
+		}
 		if(transform.childCount > 0) {
 			Transform effectsChild = transform.GetChild(0);
 			TrailRenderer trScript = effectsChild.GetComponent<TrailRenderer>();

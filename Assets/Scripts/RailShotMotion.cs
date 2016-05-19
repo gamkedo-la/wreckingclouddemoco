@@ -9,7 +9,9 @@ public class RailShotMotion : MonoBehaviour {
 
 	void Start () {
 		rb = GetComponent<Rigidbody>();
-		RaycastHit[] allHits = Physics.RaycastAll(transform.position, transform.up);
+		int layerToIgnore = LayerMask.GetMask("Player");
+		RaycastHit[] allHits = Physics.RaycastAll(transform.position, transform.up,
+		                                          layerToIgnore);
 		int layerToMatchBlast = LayerMask.NameToLayer("Explosive");
 		int layerToMatchDone = LayerMask.NameToLayer("Terrain");
 		for(int i = 0; i < allHits.Length; i++) {
@@ -30,6 +32,9 @@ public class RailShotMotion : MonoBehaviour {
 	}
 
 	public void OnCollisionEnter(Collision hitFacts) {
+		if (hitFacts.collider.gameObject.layer == LayerMask.NameToLayer ("Player")) {
+			return;
+		}
 		if(transform.childCount > 0) {
 			if(hitFacts.gameObject.layer != LayerMask.NameToLayer("Terrain")) {
 				Destroy(hitFacts.collider.gameObject);
