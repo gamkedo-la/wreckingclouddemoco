@@ -6,6 +6,9 @@ public class PotentialExploder : MonoBehaviour {
 	float range = 8.0f;
 	float power = 2500.0f;
 	float upwardsPowerBoost = 3.0f;
+	public GameObject fireParticles;
+	public GameObject smokeParticles;
+
 
 	int explodeLayer;
 
@@ -33,6 +36,10 @@ public class PotentialExploder : MonoBehaviour {
 				}
 			}
 		}
+		GameObject fire = Instantiate (fireParticles, gameObject.transform.position, Quaternion.identity) as GameObject;
+		GameObject smoke = Instantiate (smokeParticles, gameObject.transform.position, Quaternion.identity) as GameObject;
+		Destroy (fire, 6);
+		Destroy (smoke, 6);
 		Destroy(gameObject);
 	}
 
