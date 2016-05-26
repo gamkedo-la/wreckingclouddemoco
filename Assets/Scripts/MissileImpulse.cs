@@ -19,6 +19,7 @@ public class MissileImpulse : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		rb.velocity = transform.up * speedNow;
+		transform.Rotate(0.0f, 130.0f * Time.deltaTime, 0.0f);
 	}
 
 	void FixedUpdate() {
