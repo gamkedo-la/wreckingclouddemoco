@@ -7,16 +7,25 @@ public class RailShotMotion : MonoBehaviour {
 	// movement
 	float maxSpeed = 2000.0f;
 
+	public static bool isStopShotLayer(int testLayer) {
+		return testLayer == LayerMask.NameToLayer("Terrain") ||
+			testLayer == LayerMask.NameToLayer("RobotEatsShot");
+	}
+
 	void Start () {
 		rb = GetComponent<Rigidbody>();
 		int layerToIgnore = LayerMask.GetMask("Player");
 		RaycastHit[] allHits = Physics.RaycastAll(transform.position, transform.up,
 		                                          layerToIgnore);
 		int layerToMatchBlast = LayerMask.NameToLayer("Explosive");
-		int layerToMatchDone = LayerMask.NameToLayer("Terrain");
 		for(int i = 0; i < allHits.Length; i++) {
-			if(allHits[i].collider.gameObject.layer != layerToMatchDone) {
-				Destroy(allHits[i].collider.gameObject);
+			if( isStopShotLayer(allHits[i].collider.gameObject.layer) == false) {
+				FallPiece fpScript = allHits[i].collider.GetComponent<FallPiece>();
+				if(fpScript) {
+					fpScript.BreakAndRelease();
+				} else {
+					Destroy(allHits[i].collider.gameObject);
+				}
 			}
 			if(allHits[i].collider.gameObject.layer == layerToMatchBlast) {
 				PotentialExploder pe = allHits[i].collider.gameObject.GetComponent<PotentialExploder>();
@@ -36,15 +45,15 @@ public class RailShotMotion : MonoBehaviour {
 			return;
 		}
 		if(transform.childCount > 0) {
-			if(hitFacts.gameObject.layer != LayerMask.NameToLayer("Terrain")) {
+			if( isStopShotLayer(hitFacts.collider.gameObject.layer) == false) {
 				Destroy(hitFacts.collider.gameObject);
-			} else {
-				Transform effectsChild = transform.GetChild(0);
-				TrailRenderer trScript = effectsChild.GetComponent<TrailRenderer>();
-				Destroy(effectsChild.gameObject, trScript.time);
-				effectsChild.parent = null;
-				Destroy(gameObject);
 			}
+
+			Transform effectsChild = transform.GetChild(0);
+			TrailRenderer trScript = effectsChild.GetComponent<TrailRenderer>();
+			Destroy(effectsChild.gameObject, trScript.time);
+			effectsChild.parent = null;
+			Destroy(gameObject);
 		}
 	}
 }

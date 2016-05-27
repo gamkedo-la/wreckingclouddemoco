@@ -1,0 +1,177 @@
+fileFormatVersion: 2
+guid: 40cbb2e864a884764ad9a04eef53c812
+timeCreated: 1464298084
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: face-center-horn
+    100002: left-bicep
+    100004: left-forearm
+    100006: left-hand
+    100008: rest-of-body
+    100010: rest-of-body_MeshPart0
+    100012: rest-of-body_MeshPart1
+    100014: rest-of-body_MeshPart2
+    100016: rest-of-body_MeshPart3
+    100018: rest-of-body_MeshPart4
+    100020: right-bicep
+    100022: right-forearm
+    100024: right-hand
+    100026: //RootNode
+    100028: head-chunk
+    100030: legs-and-hip
+    100032: legs-and-hip_MeshPart0
+    100034: legs-and-hip_MeshPart1
+    100036: torso-core
+    100038: torso-shell
+    100040: torso-shell_MeshPart0
+    100042: torso-shell_MeshPart1
+    400000: face-center-horn
+    400002: left-bicep
+    400004: left-forearm
+    400006: left-hand
+    400008: rest-of-body
+    400010: rest-of-body_MeshPart0
+    400012: rest-of-body_MeshPart1
+    400014: rest-of-body_MeshPart2
+    400016: rest-of-body_MeshPart3
+    400018: rest-of-body_MeshPart4
+    400020: right-bicep
+    400022: right-forearm
+    400024: right-hand
+    400026: //RootNode
+    400028: head-chunk
+    400030: legs-and-hip
+    400032: legs-and-hip_MeshPart0
+    400034: legs-and-hip_MeshPart1
+    400036: torso-core
+    400038: torso-shell
+    400040: torso-shell_MeshPart0
+    400042: torso-shell_MeshPart1
+    2300000: face-center-horn
+    2300002: left-bicep
+    2300004: left-forearm
+    2300006: left-hand
+    2300008: rest-of-body_MeshPart0
+    2300010: rest-of-body_MeshPart1
+    2300012: rest-of-body_MeshPart2
+    2300014: rest-of-body_MeshPart3
+    2300016: rest-of-body_MeshPart4
+    2300018: right-bicep
+    2300020: right-forearm
+    2300022: right-hand
+    2300024: head-chunk
+    2300026: legs-and-hip_MeshPart0
+    2300028: legs-and-hip_MeshPart1
+    2300030: torso-core
+    2300032: torso-shell_MeshPart0
+    2300034: torso-shell_MeshPart1
+    2300036: legs-and-hip
+    2300038: torso-shell
+    3300000: face-center-horn
+    3300002: left-bicep
+    3300004: left-forearm
+    3300006: left-hand
+    3300008: rest-of-body_MeshPart0
+    3300010: rest-of-body_MeshPart1
+    3300012: rest-of-body_MeshPart2
+    3300014: rest-of-body_MeshPart3
+    3300016: rest-of-body_MeshPart4
+    3300018: right-bicep
+    3300020: right-forearm
+    3300022: right-hand
+    3300024: head-chunk
+    3300026: legs-and-hip_MeshPart0
+    3300028: legs-and-hip_MeshPart1
+    3300030: torso-core
+    3300032: torso-shell_MeshPart0
+    3300034: torso-shell_MeshPart1
+    3300036: legs-and-hip
+    3300038: torso-shell
+    4300000: face-center-horn
+    4300002: right-bicep
+    4300004: right-forearm
+    4300006: right-hand
+    4300008: left-bicep
+    4300010: left-hand
+    4300012: left-forearm
+    4300014: rest-of-body_MeshPart0
+    4300016: rest-of-body_MeshPart1
+    4300018: rest-of-body_MeshPart2
+    4300020: rest-of-body_MeshPart3
+    4300022: rest-of-body_MeshPart4
+    4300024: legs-and-hip_MeshPart0
+    4300026: legs-and-hip_MeshPart1
+    4300028: torso-shell_MeshPart0
+    4300030: torso-shell_MeshPart1
+    4300032: torso-core
+    4300034: head-chunk
+    4300036: legs-and-hip
+    4300038: torso-shell
+    7400000: Default Take
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 1
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

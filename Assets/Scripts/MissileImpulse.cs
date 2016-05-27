@@ -28,7 +28,7 @@ public class MissileImpulse : MonoBehaviour {
 			speedNow = maxSpeed;
 		}
 	}
-		
+
 	public void OnCollisionEnter(Collision hitFacts) {
 		if (hitFacts.collider.gameObject.layer == LayerMask.NameToLayer ("Player")) {
 			return;
@@ -43,7 +43,10 @@ public class MissileImpulse : MonoBehaviour {
 			selfExplode.BlastForce();
 			effectsChild.parent = null;
 			Destroy(gameObject);
-			if(hitFacts.gameObject.layer != LayerMask.NameToLayer("Terrain")) {
+			FallPiece fpScript = hitFacts.collider.GetComponent<FallPiece>();
+			if(fpScript) {
+				fpScript.BreakAndRelease();
+			} else if(RailShotMotion.isStopShotLayer( hitFacts.gameObject.layer ) == false) {
 				Destroy(hitFacts.collider.gameObject);
 			}
 		}

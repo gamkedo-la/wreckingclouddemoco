@@ -28,6 +28,12 @@ public class PotentialExploder : MonoBehaviour {
 			Rigidbody rb = hit.GetComponent<Rigidbody>();
 			if(rb != null) {
 				rb.AddExplosionForce(power, explosionPos, range, upwardsPowerBoost);
+
+				FallPiece fpScript = rb.GetComponent<FallPiece>();
+				if(fpScript) {
+					fpScript.BreakAndRelease();
+				}
+
 				if(rb.gameObject.layer == explodeLayer) {
 					PotentialExploder pe = rb.gameObject.GetComponent<PotentialExploder>();
 					if(pe) {
