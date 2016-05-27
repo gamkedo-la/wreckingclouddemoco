@@ -34,6 +34,11 @@ public class CameraControlFocus : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(Input.GetKeyDown(KeyCode.Minus)) {
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
+		}
+
 		if (recentHit > 0.0f) {
 			recentHit -= Time.deltaTime;
 			return;
