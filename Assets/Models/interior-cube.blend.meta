@@ -1,32 +1,16 @@
 fileFormatVersion: 2
-guid: 9a552cd403e4c4cd38f3454203db1ab4
-timeCreated: 1463698374
+guid: 7efd0dee95f4b4b17a0bb5fd7f13bd75
+timeCreated: 1464916849
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: polySurface66
-    100002: polySurface67
-    100004: polySurface68
-    100006: polySurface69
-    100008: //RootNode
-    400000: polySurface66
-    400002: polySurface67
-    400004: polySurface68
-    400006: polySurface69
-    400008: //RootNode
-    2300000: polySurface66
-    2300002: polySurface67
-    2300004: polySurface68
-    2300006: polySurface69
-    3300000: polySurface66
-    3300002: polySurface67
-    3300004: polySurface68
-    3300006: polySurface69
-    4300000: polySurface66
-    4300002: polySurface67
-    4300004: polySurface68
-    4300006: polySurface69
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Cube
+    7400000: Default Take
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -68,8 +52,8 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 19
-    normalImportMode: 1
+    normalSmoothAngle: 60
+    normalImportMode: 0
     tangentImportMode: 3
   importAnimation: 1
   copyAvatar: 0

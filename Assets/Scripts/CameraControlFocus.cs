@@ -62,8 +62,8 @@ public class CameraControlFocus : MonoBehaviour {
 			transform.position -= 50.0f * Time.deltaTime * transform.forward;
 		}
 
-		panLong = Mathf.Clamp(panLong,-3.0f,89.5f);
-		zoomIn = Mathf.Clamp(zoomIn,35.0f,120.0f);
+		panLong = Mathf.Clamp(panLong,-89.5f,89.5f);
+		// zoomIn = Mathf.Clamp(zoomIn,35.0f,120.0f);
 
 		transform.position += Input.GetAxis("Horizontal") * 70.0f * Time.deltaTime * transform.right +
 			Input.GetAxis("Vertical") * 45.0f * Time.deltaTime * Vector3.up;
@@ -71,6 +71,6 @@ public class CameraControlFocus : MonoBehaviour {
 		transform.rotation = Quaternion.AngleAxis(panLat, Vector3.up) *
 			Quaternion.AngleAxis(panLong, Vector3.right);
 
-		Camera.main.transform.position = transform.position - transform.forward * zoomIn;
+		Camera.main.transform.position = transform.position;// - transform.forward * zoomIn;
 	}
 }
