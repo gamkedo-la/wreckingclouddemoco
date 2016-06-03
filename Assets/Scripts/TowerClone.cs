@@ -30,6 +30,7 @@ public class TowerClone : MonoBehaviour {
 			for(int l = 0; l < cubesLong; l++) {
 				for(int t = 0; t < cubesTall; t++) {
 					GameObject preFabHere;
+					Quaternion rotBy = Quaternion.AngleAxis(-90.0f,Vector3.right);
 
 					if(useTileKinds == false) {
 						preFabHere = gameObject;
@@ -42,24 +43,62 @@ public class TowerClone : MonoBehaviour {
 							if(isWideSide) {
 								if(isLongSide) {
 									preFabHere = topCornerPrefab;
+									if(l == 0 && w == 0) {
+										rotBy *= Quaternion.AngleAxis(90.0f, Vector3.forward);
+									} else if(l == cubesLong - 1 && w == 0) {
+										rotBy *= Quaternion.AngleAxis(180.0f, Vector3.forward);
+									} else if(l == cubesLong - 1 && w == cubesWide - 1) {
+										rotBy *= Quaternion.AngleAxis(270.0f, Vector3.forward);
+									}
 								} else {
 									preFabHere = topEdgePrefab;
-								}
+									if(w == 0) {
+										rotBy *= Quaternion.AngleAxis(180.0f,Vector3.up);
+										rotBy *= Quaternion.AngleAxis(180.0f,Vector3.right);
+									}								}
 							} else if(isLongSide) {
-								preFabHere = topCornerPrefab;
+								preFabHere = topEdgePrefab;
+
+								if(l == 0) {
+									rotBy *= Quaternion.AngleAxis(90.0f, Vector3.forward);
+								} else {
+									rotBy *= Quaternion.AngleAxis(-90.0f, Vector3.forward);
+								}
 							} else {
 								preFabHere = topPrefab;
+
+								rotBy = Quaternion.AngleAxis(
+									Random.Range(0,4)*90.0f,Vector3.up) * rotBy;
 							}
 						} else if(isWideSide) {
 							if(isLongSide) {
 								preFabHere = sideCornerPrefab;
+								if(l == 0 && w == 0) {
+									rotBy *= Quaternion.AngleAxis(90.0f, Vector3.forward);
+								} else if(l == cubesLong - 1 && w == 0) {
+									rotBy *= Quaternion.AngleAxis(180.0f, Vector3.forward);
+								} else if(l == cubesLong - 1 && w == cubesWide - 1) {
+									rotBy *= Quaternion.AngleAxis(270.0f, Vector3.forward);
+								}
 							} else {
 								preFabHere = sidePrefab;
+
+								if(w == 0) {
+									rotBy *= Quaternion.AngleAxis(180.0f,Vector3.up);
+									rotBy *= Quaternion.AngleAxis(180.0f,Vector3.right);
+								}
 							}
 						} else if(isLongSide) {
 							preFabHere = sidePrefab;
+							if(l == 0) {
+								rotBy *= Quaternion.AngleAxis(90.0f, Vector3.forward);
+							} else {
+								rotBy *= Quaternion.AngleAxis(-90.0f, Vector3.forward);
+							}
 						} else {
 							preFabHere = insidePrefab;
+							rotBy = Quaternion.AngleAxis(
+								Random.Range(0,4)*90.0f,Vector3.up) * rotBy;
 						}
 					}
 
@@ -68,7 +107,7 @@ public class TowerClone : MonoBehaviour {
 						w * transform.localScale.x * 1.01f * transform.right +
 						l * transform.localScale.z * 1.01f * transform.forward +
 						t * transform.localScale.y * 1.01f * transform.up,
-						transform.rotation);
+						transform.rotation * rotBy);
 					clonedGO.transform.parent = newParent.transform;
 					if(Random.Range(0, 255) < 2) {
 						clonedGO.layer = LayerMask.NameToLayer("Explosive");
