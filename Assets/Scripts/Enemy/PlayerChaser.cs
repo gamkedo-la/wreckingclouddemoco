@@ -4,8 +4,8 @@ using System.Collections;
 public class PlayerChaser : MonoBehaviour {
 	public float chaseToRangeMin = 35.0f;
 	public float chaseToRangeMax = 50.0f;
-	float speedMin = 40.0f;
-	float speedMax = 55.0f;
+	public float speedMin = 40.0f;
+	public float speedMax = 55.0f;
 
 	public bool isGrounded = false;
 
@@ -24,6 +24,14 @@ public class PlayerChaser : MonoBehaviour {
 		} else {
 			randGoalOffset.y *= 0.4f; // compress vertical offset range
 		}
+
+		if(isGrounded == false) {
+			if(randGoalOffset.y < 0.0f) {
+				randGoalOffset.y = -randGoalOffset.y;
+			}
+			randGoalOffset += Vector3.up * 0.6f;
+		}
+
 		flyToPt = Camera.main.transform.position
 			+ randGoalOffset.normalized * chaseToRange;
 	}
