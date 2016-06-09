@@ -2,22 +2,28 @@
 using System.Collections;
 
 public class PlayerChaser : MonoBehaviour {
-	float chaseToRangeMin = 35.0f;
-	float chaseToRangeMax = 50.0f;
+	public float chaseToRangeMin = 35.0f;
+	public float chaseToRangeMax = 50.0f;
 	float speedMin = 40.0f;
 	float speedMax = 55.0f;
+
+	public bool isGrounded = false;
 
 	float tooClose = 25.0f;
 	float chaseToRange = 30.0f; // based on min and max above, varies per enemy
 	float driveSpeed = 50.0f;
 	Vector3 aimTargetPos;
-
+	float startY = 0.0f;
 	Vector3 flyToPt;
 
 	void newGoal() {
 		Vector3 randGoalOffset;
 		randGoalOffset = Random.onUnitSphere;
-		randGoalOffset.y *= 0.4f; // compress vertical offset range
+		if(isGrounded) {
+			randGoalOffset.y = startY;
+		} else {
+			randGoalOffset.y *= 0.4f; // compress vertical offset range
+		}
 		flyToPt = Camera.main.transform.position
 			+ randGoalOffset.normalized * chaseToRange;
 	}
@@ -31,6 +37,7 @@ public class PlayerChaser : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		startY = transform.position.y;
 		chaseToRange = Random.Range(chaseToRangeMin, chaseToRangeMax);
 		driveSpeed = Random.Range(speedMin, speedMax);
 
@@ -44,12 +51,26 @@ public class PlayerChaser : MonoBehaviour {
 			newGoal();
 			transform.position += transform.forward * driveSpeed * Time.deltaTime;
 		} else if(Vector3.Distance(transform.position, flyToPt) > chaseToRange) {
+			Vector3 lookDiff = flyToPt - transform.position;
+			if(isGrounded) {
+				lookDiff.y = 0.0f;
+			}
 			transform.rotation = Quaternion.Slerp(transform.rotation,
-				Quaternion.LookRotation(flyToPt-transform.position), Time.deltaTime * 1.0f);
+				Quaternion.LookRotation(lookDiff), Time.deltaTime * 1.0f);
 			transform.position += transform.forward * driveSpeed * Time.deltaTime;
 		} else {
+			Vector3 lookDiff = aimTargetPos - transform.position;
+			if(isGrounded) {
+				lookDiff.y = 0.0f;
+			}
 			transform.rotation = Quaternion.Slerp(transform.rotation,
-				Quaternion.LookRotation(aimTargetPos-transform.position), Time.deltaTime * 1.0f);
+				Quaternion.LookRotation(lookDiff), Time.deltaTime * 1.0f);
+		}
+
+		if(isGrounded) {
+			Vector3 tempPos = transform.position;
+			tempPos.y = Terrain.activeTerrain.SampleHeight(Camera.main.transform.position)+6.5f;
+			transform.position = tempPos;
 		}
 	}
 
