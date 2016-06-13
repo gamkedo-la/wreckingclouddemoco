@@ -12,6 +12,7 @@ public class TowerClone : MonoBehaviour {
 	public GameObject insidePrefab;
 	public GameObject topPrefab;
 	public GameObject sidePrefab;
+	public GameObject goldPrizePrefab;
 	private bool useTileKinds;
 
 	void Start() {
@@ -96,7 +97,12 @@ public class TowerClone : MonoBehaviour {
 								rotBy *= Quaternion.AngleAxis(-90.0f, Vector3.forward);
 							}
 						} else {
-							preFabHere = insidePrefab;
+							if (Random.Range (0, 100) < 4) {
+								preFabHere = goldPrizePrefab;
+							} else {
+								preFabHere = insidePrefab;	
+							}
+
 							rotBy = Quaternion.AngleAxis(
 								Random.Range(0,4)*90.0f,Vector3.up) * rotBy;
 						}
