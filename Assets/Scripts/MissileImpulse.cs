@@ -47,7 +47,7 @@ public class MissileImpulse : MonoBehaviour {
 			Destroy(gameObject);
 
 			if(hitFacts.collider.gameObject.layer == LayerMask.NameToLayer("GoldPrize")) {
-				GoldGoalTracker.AddPlayerGold();
+				GoldGoalTracker.AddPlayerGold(hitFacts.collider.gameObject);
 			}
 
 			FallPiece fpScript = hitFacts.collider.GetComponent<FallPiece>();

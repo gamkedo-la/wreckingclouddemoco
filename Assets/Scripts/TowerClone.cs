@@ -14,7 +14,7 @@ public class TowerClone : MonoBehaviour {
 	public GameObject sidePrefab;
 	public GameObject goldPrizePrefab;
 	private bool useTileKinds;
-
+	private bool addToGoldList = false;
 	void Start() {
 		cubesWide = 3+Random.Range(0,2);
 		cubesLong = 4+Random.Range(0,2);
@@ -99,7 +99,7 @@ public class TowerClone : MonoBehaviour {
 						} else {
 							if (Random.Range (0, 100) < 6) {
 								preFabHere = goldPrizePrefab;
-								GoldGoalTracker.AddTargetGoldTalley();
+								addToGoldList = true;
 							} else {
 								preFabHere = insidePrefab;	
 							}
@@ -116,7 +116,10 @@ public class TowerClone : MonoBehaviour {
 						t * transform.localScale.y * 1.01f * transform.up,
 						transform.rotation * rotBy);
 					clonedGO.transform.parent = newParent.transform;
-					if(Random.Range(0, 255) < 2) {
+					if (addToGoldList) {
+						GoldGoalTracker.AddTargetGoldTalley(clonedGO.gameObject);
+						addToGoldList = false;
+					} else	if(Random.Range(0, 255) < 2) {
 						clonedGO.layer = LayerMask.NameToLayer("Explosive");
 					}
 					TowerClone wasTC = clonedGO.GetComponent<TowerClone>();

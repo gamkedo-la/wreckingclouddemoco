@@ -80,6 +80,9 @@ public class PlayerChaser : MonoBehaviour {
 			tempPos.y = Terrain.activeTerrain.SampleHeight(Camera.main.transform.position)+6.5f;
 			transform.position = tempPos;
 		}
+		if (Input.GetKeyDown (KeyCode.P)) {
+			Destroy (gameObject);
+		}
 	}
 
 	void FixedUpdate() {
