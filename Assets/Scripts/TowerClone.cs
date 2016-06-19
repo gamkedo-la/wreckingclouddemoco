@@ -97,8 +97,9 @@ public class TowerClone : MonoBehaviour {
 								rotBy *= Quaternion.AngleAxis(-90.0f, Vector3.forward);
 							}
 						} else {
-							if (Random.Range (0, 100) < 4) {
+							if (Random.Range (0, 100) < 6) {
 								preFabHere = goldPrizePrefab;
+								GoldGoalTracker.AddTargetGoldTalley();
 							} else {
 								preFabHere = insidePrefab;	
 							}

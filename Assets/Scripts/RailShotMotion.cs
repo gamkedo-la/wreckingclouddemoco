@@ -24,6 +24,9 @@ public class RailShotMotion : MonoBehaviour {
 				if(fpScript) {
 					fpScript.BreakAndRelease();
 				} else {
+					if(allHits[i].collider.gameObject.layer == LayerMask.NameToLayer("GoldPrize")) {
+						GoldGoalTracker.AddPlayerGold();
+					}
 					Destroy(allHits[i].collider.gameObject);
 				}
 			}
@@ -34,6 +37,8 @@ public class RailShotMotion : MonoBehaviour {
 				}
 			}
 		}
+
+		Destroy(gameObject, 6.0f);
 	}
 
 	void Update () {

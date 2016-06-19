@@ -14,6 +14,8 @@ public class MissileImpulse : MonoBehaviour {
 	void Start () {
 		rb = GetComponent<Rigidbody>();
 		selfExplode = GetComponent<PotentialExploder>();
+
+		Destroy(gameObject, 15.0f);
 	}
 	
 	// Update is called once per frame
@@ -43,6 +45,11 @@ public class MissileImpulse : MonoBehaviour {
 			selfExplode.BlastForce();
 			effectsChild.parent = null;
 			Destroy(gameObject);
+
+			if(hitFacts.collider.gameObject.layer == LayerMask.NameToLayer("GoldPrize")) {
+				GoldGoalTracker.AddPlayerGold();
+			}
+
 			FallPiece fpScript = hitFacts.collider.GetComponent<FallPiece>();
 			if(fpScript) {
 				fpScript.BreakAndRelease();

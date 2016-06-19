@@ -9,7 +9,6 @@ public class PotentialExploder : MonoBehaviour {
 	public GameObject fireParticles;
 	public GameObject smokeParticles;
 
-
 	int explodeLayer;
 
 	void Start() {
