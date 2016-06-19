@@ -65,13 +65,17 @@ public class CameraControlFocus : MonoBehaviour {
 		//zoomIn -= Input.GetAxis("Mouse ScrollWheel") * 80.0f * Time.deltaTime;
 		// transform.position += Input.GetAxis("Mouse ScrollWheel") * 80.0f * Time.deltaTime * transform.forward;
 
-		if (Input.GetMouseButton(0) || (isGrounded && Input.GetAxis("Vertical")>0.0f)) {
-			transform.position += (isGrounded ? Input.GetAxis("Vertical") : 1.0f) *
+		if(isGrounded == false) {
+			transform.position += 40.0f * Time.deltaTime * transform.forward;
+		} else {
+			if(isGrounded && Input.GetAxis("Vertical") > 0.0f) {
+				transform.position += (isGrounded ? Input.GetAxis("Vertical") : 1.0f) *
 				23.0f * Time.deltaTime * transform.forward;
-		}
-		if (Input.GetMouseButton(1) || (isGrounded && Input.GetAxis("Vertical")<0.0f)) {
-			transform.position -= (isGrounded ? -Input.GetAxis("Vertical") : 1.0f) *
+			}
+			if(isGrounded && Input.GetAxis("Vertical") < 0.0f) {
+				transform.position -= (isGrounded ? -Input.GetAxis("Vertical") : 1.0f) *
 				15.0f * Time.deltaTime * transform.forward;
+			}
 		}
 
 		panLong = Mathf.Clamp(panLong, -89.5f,isGrounded ? 10.0f : 89.5f);

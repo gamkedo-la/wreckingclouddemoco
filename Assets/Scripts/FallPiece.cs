@@ -11,7 +11,9 @@ public class FallPiece : MonoBehaviour {
 	private float lastGroundHeightSinceSmokeSpawn = 0.0f;
 
 	private Rigidbody rb = null;
-	private CapsuleCollider fallBackCollider;
+
+	private Collider fallBackCollider;
+	private Vector3 fallBackColliderCenter;
 
 	void UseDynamicCollider(bool useDynamic) {
 		if(useDynamic) {
@@ -22,14 +24,19 @@ public class FallPiece : MonoBehaviour {
 		}
 
 		MeshCollider staticCollider = GetComponent<MeshCollider>();
-		staticCollider.enabled = !useDynamic;
+		// staticCollider.enabled = !useDynamic;
+		if(useDynamic) {
+			Destroy(staticCollider);
+		}
 
-		fallBackCollider.enabled = useDynamic;
+		if(fallBackCollider) {
+			fallBackCollider.enabled = useDynamic;
+		}
 
 		if(useDynamic) {
 			GameObject spawnedEffect = (GameObject)GameObject.Instantiate(spawnUponSplit,
-				(instantShatter ? transform.TransformPoint(fallBackCollider.center) :
-					fallBackCollider.center),
+				(instantShatter ? transform.TransformPoint(fallBackColliderCenter) :
+					fallBackColliderCenter),
 				fallBackCollider.transform.rotation);
 
 			if(instantShatter == false) {
@@ -52,7 +59,7 @@ public class FallPiece : MonoBehaviour {
 	}
 
 	float heightOffGroundNow() {
-		Vector3 testPt = transform.TransformPoint(fallBackCollider.center);
+		Vector3 testPt = transform.TransformPoint(fallBackColliderCenter);
 		float groundAltitudeHere = 
 			Terrain.activeTerrain.SampleHeight(
 				testPt
@@ -61,7 +68,24 @@ public class FallPiece : MonoBehaviour {
 	}
 
 	void Start() {
-		fallBackCollider = GetComponent<CapsuleCollider>();
+		CapsuleCollider fallBackCollider_capsule = GetComponent<CapsuleCollider>();
+		if(fallBackCollider_capsule != null) {
+			fallBackCollider = GetComponent<Collider>();
+			fallBackColliderCenter = fallBackCollider_capsule.center;
+		} else {
+			SphereCollider fallBackCollider_sphere = GetComponent<SphereCollider>();
+			if(fallBackCollider_sphere != null) {
+				fallBackCollider = GetComponent<Collider>();
+				fallBackColliderCenter = fallBackCollider_sphere.center;
+			} else {
+				BoxCollider fallBackCollider_box = GetComponent<BoxCollider>();
+				if(fallBackCollider_box != null) {
+					fallBackCollider = GetComponent<Collider>();
+					fallBackColliderCenter = fallBackCollider_box.center;
+				}
+			}
+		}
+
 		lastGroundHeightSinceSmokeSpawn = heightOffGroundNow();
 		UseDynamicCollider(false);
 	}
@@ -78,7 +102,7 @@ public class FallPiece : MonoBehaviour {
 				if(possibleNewHeight < 20.0f && timeSinceLastDust > 0.75f) {
 					if(rb.velocity.magnitude > 2.5f) { // so slow roll doesn't keep spawning more
 						GameObject.Instantiate(dustEffect,
-							transform.TransformPoint(fallBackCollider.center),
+							transform.TransformPoint(fallBackColliderCenter),
 							Quaternion.identity);
 					}
 					timeSinceLastDust = 0.0f;
