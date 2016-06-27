@@ -3,23 +3,40 @@ using System.Collections;
 
 public class robotAI : MonoBehaviour {
 	public GameObject nearestGoldBox = null;
+	public GameObject tractorBeam;
+	public float robotWalkSpeed = 12.0f;
+	public float tractorTimeToCaptureBlock = 3.0f;
 	// Use this for initialization
+
+	ParticleSystem tractorEffect;
+	Vector3 tractorStartPos;
+	Vector3 tractorStartScale;
+	float tractorProgressPerc;
+	ParticleSystem.MinMaxCurve effectSpawnRate;
+	bool isTractorBeamActive = false;
 	void Start () {
 		StartCoroutine (PickNearestGoldBlock ());
+		tractorEffect = tractorBeam.GetComponentInChildren<ParticleSystem> ();
+		tractorEffect.Stop ();
 	}
 
 	IEnumerator PickNearestGoldBlock(){
 		while (true){
-			if (nearestGoldBox == null) {
-				nearestGoldBox = GoldGoalTracker.NearestTargetToPoint (gameObject.transform.position);
-				if (nearestGoldBox != null) {
-//					Debug.Log (nearestGoldBox.name);
-				} else {
-//					Debug.Log ("No gold block found");
-				}
+			if (isTractorBeamActive == false || nearestGoldBox == null) {
+				nearestGoldBox = GoldGoalTracker.NearestTargetToPoint (gameObject.transform.position);	
 			}
 			yield return new WaitForSeconds (0.3f);
 		}
+	}
+
+	void StartTractorBeam(){
+		tractorEffect.Play ();
+		Rigidbody blockRB = nearestGoldBox.GetComponent<Rigidbody> ();
+		blockRB.useGravity = false;
+		tractorStartPos = nearestGoldBox.transform.position;
+		tractorStartScale = nearestGoldBox.transform.localScale;
+		tractorProgressPerc = 0.0f;
+		isTractorBeamActive = true;
 	}
 
 	void CaptureBlock(GameObject goldBlock){
@@ -33,12 +50,38 @@ public class robotAI : MonoBehaviour {
 		if (nearestGoldBox != null) {
 			Vector3 eyeLevelTarget = nearestGoldBox.transform.position;
 			eyeLevelTarget.y = transform.position.y;
-			transform.LookAt (eyeLevelTarget);
-			transform.position += transform.forward * 6.0f * Time.deltaTime;
+
+			if (Input.GetKeyDown (KeyCode.O)) {
+				CaptureBlock (nearestGoldBox);
+				return;
+			}
 			float distToTarget = Vector3.Distance (transform.position, eyeLevelTarget);
 //			Debug.Log (Mathf.FloorToInt (distToTarget));
-			if (Input.GetKeyDown (KeyCode.O)|| distToTarget < 30.0f) {
-				CaptureBlock (nearestGoldBox);
+			if (distToTarget < 90.0f) {
+
+				if(isTractorBeamActive == false){
+					StartTractorBeam ();
+				}
+				tractorProgressPerc += Time.deltaTime / tractorTimeToCaptureBlock;
+				if (tractorProgressPerc > 0.85f) {
+					CaptureBlock (nearestGoldBox);
+				} else {
+					nearestGoldBox.transform.position = 
+						tractorProgressPerc * tractorBeam.transform.position +
+						(1.0f - tractorProgressPerc) * tractorStartPos;
+					nearestGoldBox.transform.localScale = tractorStartScale * (1.0f - tractorProgressPerc);
+					tractorBeam.transform.LookAt (nearestGoldBox.transform.position);
+				}
+
+			} else {
+				if (isTractorBeamActive) {
+					tractorEffect.Stop ();
+					isTractorBeamActive = false;
+				}
+				
+				transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(eyeLevelTarget - transform.position), Time.deltaTime);
+				transform.position += transform.forward * robotWalkSpeed * Time.deltaTime;
+				// #TODO do we ever release a block?  e.g. robot dies
 			} // end of destroyed button pressed
 		} // end of nearestGoldBox != null test
 	} // end update
