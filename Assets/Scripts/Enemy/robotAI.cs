@@ -4,6 +4,7 @@ using System.Collections;
 public class robotAI : MonoBehaviour {
 	public GameObject nearestGoldBox = null;
 	public GameObject tractorBeam;
+	public Transform headToLook;
 	public float robotWalkSpeed = 12.0f;
 	public float tractorTimeToCaptureBlock = 3.0f;
 	// Use this for initialization
@@ -44,7 +45,18 @@ public class robotAI : MonoBehaviour {
 		Destroy (goldBlock);
 //		Debug.Log ("Destroyed gold box");
 	}
-	
+
+	void FixedUpdate() {
+		if(nearestGoldBox != null) {
+			Vector3 oppositePos = nearestGoldBox.transform.position - headToLook.position;
+
+			Vector3 nextStare = (headToLook.position - oppositePos - Vector3.up * 100.0f);
+			headToLook.rotation =
+				Quaternion.Slerp(headToLook.rotation,
+				Quaternion.LookRotation(nextStare - headToLook.position), Time.deltaTime);
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 		if (nearestGoldBox != null) {
