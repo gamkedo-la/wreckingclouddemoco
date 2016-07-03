@@ -29,8 +29,10 @@ public class WalkingLegs : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		for(int i = 0; i < upperBody.Length; i++) {
-			upperBody[i].localPosition = localUpperBody[i] +
-				Vector3.up * Mathf.Cos( Time.timeSinceLevelLoad * 1.4f + (i*0.1f) ) * 0.1f;
+			if(upperBody[i] != null) {
+				upperBody[i].localPosition = localUpperBody[i] +
+				Vector3.up * Mathf.Cos(Time.timeSinceLevelLoad * 1.4f + (i * 0.1f)) * 0.1f;
+			}
 		}
 
 		float latestDist = Vector3.Distance(transform.position, prevPos);
@@ -40,7 +42,6 @@ public class WalkingLegs : MonoBehaviour {
 		}
 		float vertPercK = 0.15f;
 		walkVertPerc = newVertPerc * vertPercK + walkVertPerc * (1.0f-vertPercK);
-		Debug.Log(walkVertPerc);
 
 		distWalkedTotal += Vector3.Distance(transform.position, prevPos);
 		prevPos = transform.position;
@@ -50,8 +51,16 @@ public class WalkingLegs : MonoBehaviour {
 		Vector3 rightOffset = 
 			Quaternion.AngleAxis(distWalkedTotal*20.0f
 				+180.0f, Vector3.right) * Vector3.up * 0.3f;
-		leftOffset.y *= walkVertPerc;
-		rightOffset.y *= walkVertPerc;
+		if(leftOffset.y > 0.0f) {
+			leftOffset.y *= walkVertPerc;
+		} else {
+			leftOffset.y = 0.0f;
+		}
+		if(rightOffset.y > 0.0f) {
+			rightOffset.y *= walkVertPerc;
+		} else {
+			rightOffset.y = 0.0f;
+		}
 
 		leftLeg.localPosition = localRelLeft + leftOffset;
 		rightLeg.localPosition = localRelRight + rightOffset;
