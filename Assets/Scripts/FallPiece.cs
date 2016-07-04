@@ -6,12 +6,14 @@ public class FallPiece : MonoBehaviour {
 	public bool bustedYet = false;
 	public GameObject spawnUponSplit;
 	public GameObject dustEffect;
-	private float timeSinceLastDust = 0.0f;
+	public FallPieceManager myManager;
+	public float healthPercentage = 1.0f;
+	public int currentHP = 10;
 	public bool instantShatter = false;
+
 	private float lastGroundHeightSinceSmokeSpawn = 0.0f;
-
+	private float timeSinceLastDust = 0.0f;
 	private Rigidbody rb = null;
-
 	private Collider fallBackCollider;
 	private Vector3 fallBackColliderCenter;
 
@@ -52,7 +54,7 @@ public class FallPiece : MonoBehaviour {
 
 			for(int i = 0; i < supportingThisPiece.Length; i++) {
 				if(supportingThisPiece[i]) {
-					supportingThisPiece[i].BreakAndRelease();
+					supportingThisPiece[i].BreakAndRelease(-1);
 				}
 			}
 		}
@@ -67,7 +69,7 @@ public class FallPiece : MonoBehaviour {
 		return (testPt.y-groundAltitudeHere);
 	}
 
-	void Start() {
+	void SetupColliders(){
 		CapsuleCollider fallBackCollider_capsule = GetComponent<CapsuleCollider>();
 		if(fallBackCollider_capsule != null) {
 			fallBackCollider = GetComponent<Collider>();
@@ -85,13 +87,34 @@ public class FallPiece : MonoBehaviour {
 				}
 			}
 		}
-
-		lastGroundHeightSinceSmokeSpawn = heightOffGroundNow();
-		UseDynamicCollider(false);
 	}
 
-	public void BreakAndRelease() {
-		UseDynamicCollider(true);
+	void ReportingForDuty(){
+		myManager = GetComponentInParent<FallPieceManager> ();
+		if (myManager != null) {
+			myManager.RegisterPieceWithManager (this);
+			currentHP = (int)(healthPercentage * myManager.baseLimbHitpoints);
+		}
+	}
+
+	void Start() {
+		SetupColliders ();
+		lastGroundHeightSinceSmokeSpawn = heightOffGroundNow();
+		UseDynamicCollider(false);
+		ReportingForDuty ();
+	}
+
+	public void BreakAndRelease(int damage) { // negative number if it's infiniate (e.g. need to kill the attached pieces)
+		if (myManager == null || myManager.canBeDestroyed) {
+			currentHP -= damage;
+			Debug.Log ("Damage dealt: " + damage + " remaining HP: " + currentHP);
+			if (currentHP <= 0 || damage < 0) {
+				UseDynamicCollider (true);		
+			}
+		} else {
+			Debug.Log("My manager prevents destruction, don't forget to toggle that thing off!");
+		}
+
 	}
 
 	void Update() {

@@ -4,6 +4,8 @@ using System.Collections;
 public class RailShotMotion : MonoBehaviour {
 	Rigidbody rb;
 
+	public int damage = 40;
+
 	// movement
 	float maxSpeed = 2000.0f;
 
@@ -22,7 +24,7 @@ public class RailShotMotion : MonoBehaviour {
 			if( isStopShotLayer(allHits[i].collider.gameObject.layer) == false) {
 				FallPiece fpScript = allHits[i].collider.GetComponent<FallPiece>();
 				if(fpScript) {
-					fpScript.BreakAndRelease();
+					fpScript.BreakAndRelease(damage);
 				} else {
 					if(allHits[i].collider.gameObject.layer == LayerMask.NameToLayer("GoldPrize")) {
 						GoldGoalTracker.AddPlayerGold(allHits[i].collider.gameObject);

@@ -4,6 +4,7 @@ using System.Collections;
 public class MissileImpulse : MonoBehaviour {
 	Rigidbody rb;
 	PotentialExploder selfExplode;
+	public int damage = 20;
 
 	// movement
 	float maxSpeed = 80.0f;
@@ -52,7 +53,7 @@ public class MissileImpulse : MonoBehaviour {
 
 			FallPiece fpScript = hitFacts.collider.GetComponent<FallPiece>();
 			if(fpScript) {
-				fpScript.BreakAndRelease();
+				fpScript.BreakAndRelease(damage);
 			} else if(RailShotMotion.isStopShotLayer( hitFacts.gameObject.layer ) == false) {
 				Destroy(hitFacts.collider.gameObject);
 			}

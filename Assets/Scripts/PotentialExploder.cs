@@ -8,6 +8,7 @@ public class PotentialExploder : MonoBehaviour {
 	float upwardsPowerBoost = 3.0f;
 	public GameObject fireParticles;
 	public GameObject smokeParticles;
+	public int damage = 10;
 
 	int explodeLayer;
 
@@ -30,7 +31,7 @@ public class PotentialExploder : MonoBehaviour {
 
 				FallPiece fpScript = rb.GetComponent<FallPiece>();
 				if(fpScript) {
-					fpScript.BreakAndRelease();
+					fpScript.BreakAndRelease(damage);
 				}
 
 				if(rb.gameObject.layer == explodeLayer) {
