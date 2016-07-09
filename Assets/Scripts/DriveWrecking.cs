@@ -2,10 +2,14 @@
 using System.Collections;
 
 public class DriveWrecking : MonoBehaviour {
-	public bool isPiloting = false;
+	public bool isPiloting = true;
 
 	public float panLong;
 	public float panLat;
+
+	private float panLongV;
+	private float panLatV;
+	private float velFalloff = 0.92f;
 
 	// Use this for initialization
 	void Start () {
@@ -34,8 +38,11 @@ public class DriveWrecking : MonoBehaviour {
 				isPiloting = true;
 			}
 		} else {
-			panLong -= Input.GetAxis("Mouse Y") * 50.0f * Time.deltaTime;
-			panLat += Input.GetAxis("Mouse X") * 50.0f * Time.deltaTime;
+			panLongV -= Input.GetAxis("Mouse Y") * 2.0f * Time.deltaTime;
+			panLatV += Input.GetAxis("Mouse X") * 3.0f * Time.deltaTime;
+
+			panLong += panLongV;
+			panLat += panLatV;
 
 			transform.position += transform.right * Input.GetAxis("Horizontal") * 12.0f * Time.deltaTime;
 			transform.position += transform.forward * Input.GetAxis("Vertical") * 25.0f * Time.deltaTime;
@@ -45,5 +52,10 @@ public class DriveWrecking : MonoBehaviour {
 			transform.rotation = Quaternion.AngleAxis(panLat, Vector3.up)
 				* Quaternion.AngleAxis(panLong, Vector3.right);
 		}
+	}
+
+	void FixedUpdate() {
+		panLongV *= velFalloff;
+		panLatV *= velFalloff;
 	}
 }
