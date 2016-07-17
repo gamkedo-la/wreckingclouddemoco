@@ -57,8 +57,8 @@ public class GoldGoalTracker : MonoBehaviour {
 
 	static void UpdateScoreText() {
 		if(scoreToShow) {
-			scoreToShow.text = ""+numberPlayerGot+" of "+(numberTotal - numberEnemiesGot)+" gold left" 
-				+ "\nEnemy captures: " + numberEnemiesGot;
+			scoreToShow.text = ""+numberPlayerGot+" earned\n"+(numberTotal - numberEnemiesGot)+" reactors left" 
+				+ "\n" + numberEnemiesGot + " in enemy hands";
 		}
 	}
 }
