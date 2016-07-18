@@ -44,8 +44,8 @@ public class DriveWrecking : MonoBehaviour {
 			panLong += panLongV;
 			panLat += panLatV;
 
-			transform.position += transform.right * Input.GetAxis("Horizontal") * 12.0f * Time.deltaTime;
-			transform.position += transform.forward * Input.GetAxis("Vertical") * 25.0f * Time.deltaTime;
+			transform.position += transform.right * Input.GetAxis("HorizontalP2") * 12.0f * Time.deltaTime;
+			transform.position += transform.forward * Input.GetAxis("VerticalP2") * 25.0f * Time.deltaTime;
 
 			panLong = Mathf.Clamp(panLong, -29.5f, 29.5f);
 

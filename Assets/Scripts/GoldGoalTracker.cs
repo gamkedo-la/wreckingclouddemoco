@@ -17,7 +17,10 @@ public class GoldGoalTracker : MonoBehaviour {
 		numberEnemiesGot = 0;
 		allGoldTargets = new List<GameObject>();
 		scoreToShow = gameObject.GetComponent<Text>();
-		UpdateScoreText();
+//		UpdateScoreText();
+		if(scoreToShow) {
+			scoreToShow.text = "";
+		}
 	}
 
 	public static void AddPlayerGold(GameObject goldBox) {
@@ -56,9 +59,21 @@ public class GoldGoalTracker : MonoBehaviour {
 	}
 
 	static void UpdateScoreText() {
+		int blocksLeft = (numberTotal - numberEnemiesGot - numberPlayerGot);
 		if(scoreToShow) {
-			scoreToShow.text = ""+numberPlayerGot+" earned\n"+(numberTotal - numberEnemiesGot)+" reactors left" 
+			scoreToShow.text = ""+numberPlayerGot+" earned\n"+blocksLeft+" reactors left" 
 				+ "\n" + numberEnemiesGot + " in enemy hands";
+		}
+		if (blocksLeft == 0) {
+			string headline = "";
+			if (numberPlayerGot > numberEnemiesGot) {
+				headline = "You win!";
+			} else if (numberEnemiesGot > numberPlayerGot) {
+				headline = "You lose!";
+			} else {
+				headline = "You tied!";
+			}
+			EndOfRoundMessage.instance.OpenPanel (headline);
 		}
 	}
 }
