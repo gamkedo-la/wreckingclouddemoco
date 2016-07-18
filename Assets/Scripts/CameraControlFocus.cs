@@ -64,29 +64,30 @@ public class CameraControlFocus : MonoBehaviour {
 			transform.position += pos - transform.position + 
 				(isGrounded ? Vector3.down*8.0f : Vector3.zero);
 		}
+		if (EndOfRoundMessage.instance.beenTriggered == false) {
 
-		// panLong -= Input.GetAxis("Mouse Y") * 50.0f * Time.deltaTime;
-		// panLat += Input.GetAxis("Mouse X") * 50.0f * Time.deltaTime;
-		panLat += Input.GetAxis("Horizontal") * 50.0f * Time.deltaTime;
-		//zoomIn -= Input.GetAxis("Mouse ScrollWheel") * 80.0f * Time.deltaTime;
-		// transform.position += Input.GetAxis("Mouse ScrollWheel") * 80.0f * Time.deltaTime * transform.forward;
+			// panLong -= Input.GetAxis("Mouse Y") * 50.0f * Time.deltaTime;
+			// panLat += Input.GetAxis("Mouse X") * 50.0f * Time.deltaTime;
+			panLat += Input.GetAxis ("Horizontal") * 50.0f * Time.deltaTime;
+			//zoomIn -= Input.GetAxis("Mouse ScrollWheel") * 80.0f * Time.deltaTime;
+			// transform.position += Input.GetAxis("Mouse ScrollWheel") * 80.0f * Time.deltaTime * transform.forward;
 
-		Vector3 fowardPush= Vector3.zero;
+			Vector3 fowardPush = Vector3.zero;
 
-		if(isGrounded == false) {
-			transform.position += 40.0f * Time.deltaTime * transform.forward;
-		} else {
-			if(isGrounded && Input.GetAxis("Vertical") > 0.5f) {
-				fowardPush = (isGrounded ? Input.GetAxis("Vertical") : 1.0f) *
-				23.0f * Time.deltaTime * transform.forward;
+			if (isGrounded == false) {
+				transform.position += 40.0f * Time.deltaTime * transform.forward;
+			} else {
+				if (isGrounded && Input.GetAxis ("Vertical") > 0.5f) {
+					fowardPush = (isGrounded ? Input.GetAxis ("Vertical") : 1.0f) *
+					23.0f * Time.deltaTime * transform.forward;
+				}
+				if (isGrounded && Input.GetAxis ("Vertical") < 0.5f) {
+					fowardPush = (isGrounded ? -Input.GetAxis ("Vertical") : 1.0f) *
+					-15.0f * Time.deltaTime * transform.forward;
+				}
+				rb.AddForce (fowardPush * 800.0f);
 			}
-			if(isGrounded && Input.GetAxis("Vertical") < 0.5f) {
-				fowardPush = (isGrounded ? -Input.GetAxis("Vertical") : 1.0f) *
-				-15.0f * Time.deltaTime * transform.forward;
-			}
-			rb.AddForce(fowardPush*800.0f);
 		}
-
 		panLong = Mathf.Clamp(panLong, -89.5f,isGrounded ? 10.0f : 89.5f);
 		// zoomIn = Mathf.Clamp(zoomIn,35.0f,120.0f);
 

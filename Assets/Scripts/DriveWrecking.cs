@@ -15,10 +15,10 @@ public class DriveWrecking : MonoBehaviour {
 	void Start () {
 	
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		if(isPiloting == false) {
+		if(isPiloting == false && EndOfRoundMessage.instance.beenTriggered == false) {
 			if(Input.GetKey(KeyCode.C)) {
 				// transform.position += transform.forward * Time.deltaTime * 40.0f;
 				CameraControlFocus ccf = Camera.main.transform.GetComponentInParent<CameraControlFocus>();
@@ -37,7 +37,7 @@ public class DriveWrecking : MonoBehaviour {
 				}
 				isPiloting = true;
 			}
-		} else {
+		} else if(EndOfRoundMessage.instance.beenTriggered == false) {
 			panLongV -= Input.GetAxis("Mouse Y") * 2.0f * Time.deltaTime;
 			panLatV += Input.GetAxis("Mouse X") * 3.0f * Time.deltaTime;
 

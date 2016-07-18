@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class EndOfRoundMessage : MonoBehaviour {
 
 	public GameObject panel;
-	bool beenTriggered = false;
+	public bool beenTriggered = false;
 	public static EndOfRoundMessage instance;
 	public Text headline;
 	// Use this for initialization

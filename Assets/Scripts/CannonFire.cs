@@ -29,7 +29,7 @@ public class CannonFire : MonoBehaviour {
 		if(reloadLeft > 0.0f) {
 			reloadLeft -= Time.deltaTime;
 		}
-		if( reloadLeft <= 0.0f &&
+		if( reloadLeft <= 0.0f && EndOfRoundMessage.instance.beenTriggered == false &&
 			( (autoFire==false && Input.GetKeyDown(triggerKey)) ||
 				(autoFire && Input.GetKey(triggerKey)) ) ) {
 			GameObject.Instantiate(spawnAttackPrefab, fireFrom.position, fireFrom.rotation);
