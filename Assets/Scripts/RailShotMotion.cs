@@ -27,9 +27,11 @@ public class RailShotMotion : MonoBehaviour {
 					fpScript.BreakAndRelease(damage);
 				} else {
 					if(allHits[i].collider.gameObject.layer == LayerMask.NameToLayer("GoldPrize")) {
-						GoldGoalTracker.AddPlayerGold(allHits[i].collider.gameObject);
+						// GoldGoalTracker.AddPlayerGold(allHits[i].collider.gameObject);
+						// unbreakable!
+					} else {
+						Destroy(allHits[i].collider.gameObject);
 					}
-					Destroy(allHits[i].collider.gameObject);
 				}
 			}
 			if(allHits[i].collider.gameObject.layer == layerToMatchBlast) {

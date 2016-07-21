@@ -25,6 +25,10 @@ public class robotAI : MonoBehaviour {
 		while (true){
 			if (isTractorBeamActive == false || nearestGoldBox == null) {
 				nearestGoldBox = GoldGoalTracker.NearestTargetToPoint (gameObject.transform.position);	
+				if (nearestGoldBox == null && isTractorBeamActive) {
+					tractorEffect.Stop ();
+					isTractorBeamActive = false;
+				}
 			}
 			yield return new WaitForSeconds (0.3f);
 		}
