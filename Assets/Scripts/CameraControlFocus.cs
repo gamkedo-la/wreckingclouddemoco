@@ -68,7 +68,7 @@ public class CameraControlFocus : MonoBehaviour {
 
 			// panLong -= Input.GetAxis("Mouse Y") * 50.0f * Time.deltaTime;
 			// panLat += Input.GetAxis("Mouse X") * 50.0f * Time.deltaTime;
-			panLat += Input.GetAxis ("Horizontal") * 50.0f * Time.deltaTime;
+			panLat += Input.GetAxis ("HorizontalP2") * 50.0f * Time.deltaTime;
 			//zoomIn -= Input.GetAxis("Mouse ScrollWheel") * 80.0f * Time.deltaTime;
 			// transform.position += Input.GetAxis("Mouse ScrollWheel") * 80.0f * Time.deltaTime * transform.forward;
 
@@ -77,11 +77,11 @@ public class CameraControlFocus : MonoBehaviour {
 			if (isGrounded == false) {
 				transform.position += 40.0f * Time.deltaTime * transform.forward;
 			} else {
-				if (isGrounded && Input.GetAxis ("Vertical") > 0.5f) {
+				if (isGrounded && Input.GetAxis ("VerticalP2") > 0.5f) {
 					fowardPush = (isGrounded ? Input.GetAxis ("Vertical") : 1.0f) *
 					23.0f * Time.deltaTime * transform.forward;
 				}
-				if (isGrounded && Input.GetAxis ("Vertical") < 0.5f) {
+				if (isGrounded && Input.GetAxis ("VerticalP2") < 0.5f) {
 					fowardPush = (isGrounded ? -Input.GetAxis ("Vertical") : 1.0f) *
 					-15.0f * Time.deltaTime * transform.forward;
 				}
