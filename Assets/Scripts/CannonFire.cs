@@ -29,9 +29,19 @@ public class CannonFire : MonoBehaviour {
 		if(reloadLeft > 0.0f) {
 			reloadLeft -= Time.deltaTime;
 		}
+
+		bool triggerNow;
+
+		if(triggerKey != KeyCode.None) {
+			triggerNow = ((autoFire == false && Input.GetKeyDown(triggerKey)) ||
+				(autoFire && Input.GetKey(triggerKey)));
+		} else {
+			triggerNow = ((autoFire == false && Input.GetMouseButtonDown(0)) ||
+				(autoFire && Input.GetMouseButton(0)));
+		}
+
 		if( reloadLeft <= 0.0f && EndOfRoundMessage.instance.beenTriggered == false &&
-			( (autoFire==false && Input.GetKeyDown(triggerKey)) ||
-				(autoFire && Input.GetKey(triggerKey)) ) ) {
+			triggerNow ) {
 			GameObject.Instantiate(spawnAttackPrefab, fireFrom.position, fireFrom.rotation);
 			if(reloadMat) {
 				reloadMat.color = Color.black;
