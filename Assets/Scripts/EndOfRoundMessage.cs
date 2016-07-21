@@ -10,8 +10,8 @@ public class EndOfRoundMessage : MonoBehaviour {
 	public Text headline;
 	// Use this for initialization
 	void Start () {
-		panel.SetActive(false);
 		instance = this;
+		panel.SetActive(false);
 	}
 
 	IEnumerator WaitThenShowMessage(string endHeadline){
