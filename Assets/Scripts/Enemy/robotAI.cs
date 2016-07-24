@@ -42,6 +42,7 @@ public class robotAI : MonoBehaviour {
 		tractorStartScale = nearestGoldBox.transform.localScale;
 		tractorProgressPerc = 0.0f;
 		isTractorBeamActive = true;
+		SoundSet.PlayClipByName("TractorBeam", 0.6f);
 	}
 
 	void CaptureBlock(GameObject goldBlock){

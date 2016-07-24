@@ -36,6 +36,11 @@ public class CannonFire : MonoBehaviour {
 		}
 		rechargeUI.enabled = false;
 	}
+
+	IEnumerator delayedBlast() {
+		yield return new WaitForSeconds(2.0f);
+		GameObject.Instantiate(spawnAttackPrefab, fireFrom.position, fireFrom.rotation);
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -59,12 +64,15 @@ public class CannonFire : MonoBehaviour {
 
 		if( reloadLeft <= 0.0f && EndOfRoundMessage.instance.beenTriggered == false &&
 			triggerNow ) {
-			GameObject.Instantiate(spawnAttackPrefab, fireFrom.position, fireFrom.rotation);
 			reloadLeft += reloadDelay;
 			if(reloadMat) {
 				reloadMat.color = Color.black;
 				rechargeUI.enabled = true;
+				SoundSet.PlayClipByName("WCPowerUp", 1.0f);
 				StartCoroutine(updateRechargeTime());
+				StartCoroutine(delayedBlast());
+			} else {
+				GameObject.Instantiate(spawnAttackPrefab, fireFrom.position, fireFrom.rotation);
 			}
 		}
 	}

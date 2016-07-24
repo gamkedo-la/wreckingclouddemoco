@@ -10,10 +10,11 @@ public class DriveWrecking : MonoBehaviour {
 	private float panLongV;
 	private float panLatV;
 	private float velFalloff = 0.92f;
+	AudioClip myDroneSnd;
 
 	// Use this for initialization
 	void Start () {
-	
+		SoundSet.PlayClipByName("DroneLoop", 1.0f, true);
 	}
 
 	// Update is called once per frame

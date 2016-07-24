@@ -17,6 +17,8 @@ public class MissileImpulse : MonoBehaviour {
 		selfExplode = GetComponent<PotentialExploder>();
 
 		Destroy(gameObject, 15.0f);
+
+		SoundSet.PlayClipByName("Rocket");
 	}
 	
 	// Update is called once per frame
