@@ -78,11 +78,11 @@ public class CameraControlFocus : MonoBehaviour {
 				transform.position += 40.0f * Time.deltaTime * transform.forward;
 			} else {
 				if (isGrounded && Input.GetAxis ("VerticalP2") > 0.5f) {
-					fowardPush = (isGrounded ? Input.GetAxis ("Vertical") : 1.0f) *
+					fowardPush = (isGrounded ? Input.GetAxis ("VerticalP2") : 1.0f) *
 					23.0f * Time.deltaTime * transform.forward;
 				}
 				if (isGrounded && Input.GetAxis ("VerticalP2") < 0.5f) {
-					fowardPush = (isGrounded ? -Input.GetAxis ("Vertical") : 1.0f) *
+					fowardPush = (isGrounded ? -Input.GetAxis ("VerticalP2") : 1.0f) *
 					-15.0f * Time.deltaTime * transform.forward;
 				}
 				rb.AddForce (fowardPush * 800.0f);
