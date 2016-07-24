@@ -26,6 +26,7 @@ public class CameraControlFocus : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Time.timeScale = 1.0f;
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
 		rb = GetComponent<Rigidbody>();

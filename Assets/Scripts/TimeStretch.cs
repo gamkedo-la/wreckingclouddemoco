@@ -6,7 +6,11 @@ public class TimeStretch : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Time.timeScale = 1.0f;
-		Destroy(this, 21.5f);
+	}
+
+	public void RestoreTimeAndDestroy() {
+		Time.timeScale = 1.0f;
+		Destroy(this);
 	}
 
 	IEnumerator FastSkipThenRestoreTime() {
