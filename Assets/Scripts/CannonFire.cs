@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class CannonFire : MonoBehaviour {
@@ -11,13 +12,29 @@ public class CannonFire : MonoBehaviour {
 	float reloadLeft = 0.0f;
 
 	public Material reloadMat;
+	private Text rechargeUI;
+	private string baseReloadMsg;
 
 	// Use this for initialization
 	void Start () {
 		fireFrom = transform.Find("FireFrom");
 		if(reloadMat) {
 			reloadMat.color = Color.cyan;
+			GameObject rechargeUIGO = GameObject.Find("FusionRecharge");
+			if(rechargeUIGO) {
+				rechargeUI = rechargeUIGO.GetComponent<Text>();
+				baseReloadMsg = rechargeUI.text;
+				rechargeUI.enabled = false;
+			}
 		}
+	}
+
+	IEnumerator updateRechargeTime() {
+		while(reloadLeft > 0.1f) {
+			rechargeUI.text = baseReloadMsg + ": " + reloadLeft.ToString("F1");
+			yield return new WaitForSeconds(0.1f);
+		}
+		rechargeUI.enabled = false;
 	}
 	
 	// Update is called once per frame
@@ -43,10 +60,12 @@ public class CannonFire : MonoBehaviour {
 		if( reloadLeft <= 0.0f && EndOfRoundMessage.instance.beenTriggered == false &&
 			triggerNow ) {
 			GameObject.Instantiate(spawnAttackPrefab, fireFrom.position, fireFrom.rotation);
+			reloadLeft += reloadDelay;
 			if(reloadMat) {
 				reloadMat.color = Color.black;
+				rechargeUI.enabled = true;
+				StartCoroutine(updateRechargeTime());
 			}
-			reloadLeft += reloadDelay;
 		}
 	}
 }

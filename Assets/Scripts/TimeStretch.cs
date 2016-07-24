@@ -15,7 +15,7 @@ public class TimeStretch : MonoBehaviour {
 
 	IEnumerator FastSkipThenRestoreTime() {
 		Time.timeScale = 100.0f;
-		yield return new WaitForSeconds(21.0f-Time.realtimeSinceStartup);
+		yield return new WaitForSeconds(22.5f-Time.realtimeSinceStartup);
 		Time.timeScale = 1.0f;
 	}
 	

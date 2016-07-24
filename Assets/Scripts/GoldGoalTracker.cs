@@ -26,6 +26,7 @@ public class GoldGoalTracker : MonoBehaviour {
 	public static void AddPlayerGold(GameObject goldBox) {
 		numberPlayerGot++;
 		allGoldTargets.Remove (goldBox);
+		Destroy(goldBox);
 //		Debug.Log ("Player removed: count of gold targets: " + allGoldTargets.Count);
 		UpdateScoreText();
 	}
@@ -33,6 +34,7 @@ public class GoldGoalTracker : MonoBehaviour {
 	public static void AddEnemyGold(GameObject goldBox) {
 		numberEnemiesGot++;
 		allGoldTargets.Remove (goldBox);
+		Destroy(goldBox);
 //		Debug.Log ("Enemy removed: count of gold targets: " + allGoldTargets.Count);
 		UpdateScoreText();
 	}
