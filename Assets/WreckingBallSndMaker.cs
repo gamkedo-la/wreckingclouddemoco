@@ -10,11 +10,11 @@ public class WreckingBallSndMaker : MonoBehaviour {
 		}
 		float hitForce = collFacts.relativeVelocity.magnitude;
 		if(hitForce > 5.0f) {
-			float hitVol = (hitForce - 5.0f)/10.0f;
+			float hitVol = (hitForce - 7.0f)/10.0f;
 			hitVol = Mathf.Min(hitVol, 1.0f);
 			SoundSet.PlayClipByName("BallImpact", hitVol);
 			SoundSet.PlayClipByName("SmashBuilding", hitVol);
-			timeBetween = Random.Range(0.15f,0.35f);
+			timeBetween = Random.Range(0.25f,0.35f);
 		}
 	}
 
