@@ -15,6 +15,9 @@ public class CannonFire : MonoBehaviour {
 	private Text rechargeUI;
 	private string baseReloadMsg;
 
+	public GameObject startChargeEffect;
+	public Transform chargeEffectLoc;
+
 	// Use this for initialization
 	void Start () {
 		fireFrom = transform.Find("FireFrom");
@@ -38,6 +41,10 @@ public class CannonFire : MonoBehaviour {
 	}
 
 	IEnumerator delayedBlast() {
+		if(startChargeEffect) {
+			GameObject tempGO = GameObject.Instantiate(startChargeEffect, chargeEffectLoc.position, chargeEffectLoc.rotation) as GameObject;
+			tempGO.transform.parent = chargeEffectLoc;
+		}
 		yield return new WaitForSeconds(2.0f);
 		GameObject.Instantiate(spawnAttackPrefab, fireFrom.position, fireFrom.rotation);
 	}

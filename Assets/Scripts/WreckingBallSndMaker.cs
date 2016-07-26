@@ -9,7 +9,7 @@ public class WreckingBallSndMaker : MonoBehaviour {
 			return;
 		}
 		float hitForce = collFacts.relativeVelocity.magnitude;
-		if(hitForce > 5.0f) {
+		if(hitForce > 7.0f) {
 			float hitVol = (hitForce - 7.0f)/10.0f;
 			hitVol = Mathf.Min(hitVol, 1.0f);
 			SoundSet.PlayClipByName("BallImpact", hitVol);

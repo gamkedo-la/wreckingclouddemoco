@@ -11,6 +11,11 @@ public class CameraControlFocus : MonoBehaviour {
 	public float panLat;
 	public float zoomIn;
 
+	public Transform frontWheelL;
+	public Transform frontWheelR;
+	public Transform rearWheelL;
+	public Transform rearWheelR;
+
 	float recentHit = 0.0f;
 	Rigidbody rb;
 
@@ -70,6 +75,15 @@ public class CameraControlFocus : MonoBehaviour {
 			// panLong -= Input.GetAxis("Mouse Y") * 50.0f * Time.deltaTime;
 			// panLat += Input.GetAxis("Mouse X") * 50.0f * Time.deltaTime;
 			panLat += Input.GetAxis ("HorizontalP2") * 50.0f * Time.deltaTime;
+
+			if(frontWheelL) {
+				float spinAmtForTurn = Input.GetAxis("HorizontalP2") * Time.deltaTime * 70.0f;
+				frontWheelL.Rotate(Vector3.forward, -spinAmtForTurn);
+				frontWheelR.Rotate(Vector3.forward, spinAmtForTurn);
+				rearWheelL.Rotate(Vector3.forward, -spinAmtForTurn);
+				rearWheelR.Rotate(Vector3.forward, spinAmtForTurn);
+			}
+
 			//zoomIn -= Input.GetAxis("Mouse ScrollWheel") * 80.0f * Time.deltaTime;
 			// transform.position += Input.GetAxis("Mouse ScrollWheel") * 80.0f * Time.deltaTime * transform.forward;
 
@@ -87,6 +101,13 @@ public class CameraControlFocus : MonoBehaviour {
 					-15.0f * Time.deltaTime * transform.forward;
 				}
 				rb.AddForce (fowardPush * 800.0f);
+			}
+			if(frontWheelL) {
+				float spinAmt = transform.InverseTransformVector(rb.velocity).z * Time.deltaTime * -7.0f;
+				frontWheelL.Rotate(Vector3.forward, spinAmt);
+				frontWheelR.Rotate(Vector3.forward, spinAmt);
+				rearWheelL.Rotate(Vector3.forward, spinAmt);
+				rearWheelR.Rotate(Vector3.forward, spinAmt);
 			}
 		}
 		panLong = Mathf.Clamp(panLong, -89.5f,isGrounded ? 10.0f : 89.5f);
