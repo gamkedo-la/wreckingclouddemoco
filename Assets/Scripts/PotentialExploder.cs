@@ -10,10 +10,26 @@ public class PotentialExploder : MonoBehaviour {
 	public GameObject smokeParticles;
 	public int damage = 10;
 
+	public int hitPoints = 20;
+	private int maxHP = 20;
+
 	int explodeLayer;
 
 	void Start() {
 		explodeLayer = LayerMask.NameToLayer("Explosive");
+		maxHP = hitPoints;
+	}
+
+	public string HealthPerc() {
+		int fakePerc = 100 * hitPoints / maxHP;
+		return ""+fakePerc+"%";
+	}
+
+	public void ApplyDamage(int thisMany) {
+		hitPoints -= thisMany;
+		if(hitPoints < 0) {
+			BlastForce();
+		}
 	}
 
 	public bool didBlast = false;
@@ -21,6 +37,7 @@ public class PotentialExploder : MonoBehaviour {
 		if(didBlast) {
 			return;
 		}
+		didBlast = true;
 		SoundSet.PlayClipByName("Explosion with Metal Debris", Random.Range(0.7f, 1.0f));
 		Vector3 explosionPos = transform.position;
 		Collider[] colliders = Physics.OverlapSphere(explosionPos, range);
@@ -33,14 +50,19 @@ public class PotentialExploder : MonoBehaviour {
 				FallPiece fpScript = rb.GetComponent<FallPiece>();
 				if(fpScript) {
 					fpScript.BreakAndRelease(damage);
+				} else {
+					PotentialExploder peScript = rb.GetComponent<PotentialExploder>();
+					if(peScript && peScript != this) {
+						peScript.ApplyDamage(damage);
+					}
 				}
 
-				if(rb.gameObject.layer == explodeLayer) {
+				/*if(rb.gameObject.layer == explodeLayer) {
 					PotentialExploder pe = rb.gameObject.GetComponent<PotentialExploder>();
 					if(pe) {
 						pe.BlastForce();
 					}
-				}
+				}*/
 			}
 		}
 		if (fireParticles) {
@@ -51,7 +73,6 @@ public class PotentialExploder : MonoBehaviour {
 			GameObject smoke = Instantiate (smokeParticles, gameObject.transform.position, Quaternion.identity) as GameObject;
 			Destroy (smoke, 6);
 		}
-		didBlast = true;
 		if(doRemove) {
 			Destroy(gameObject);
 		} else {

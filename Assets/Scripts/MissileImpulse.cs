@@ -55,8 +55,11 @@ public class MissileImpulse : MonoBehaviour {
 			}
 
 			FallPiece fpScript = hitFacts.collider.GetComponent<FallPiece>();
+			PotentialExploder peScript = hitFacts.collider.GetComponent<PotentialExploder>();
 			if(fpScript) {
 				fpScript.BreakAndRelease(damage);
+			} else if(peScript) {
+				peScript.ApplyDamage(damage);
 			} else if(RailShotMotion.isStopShotLayer( hitFacts.gameObject.layer ) == false) {
 				Destroy(hitFacts.collider.gameObject);
 			}

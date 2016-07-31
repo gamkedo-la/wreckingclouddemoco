@@ -2,9 +2,11 @@
 using System.Collections;
 
 public class CannonBallImpulse : MonoBehaviour {
-	int damage = 4;
+	int damage; // randomly given low value in init
 	// Use this for initialization
 	void Start () {
+		damage = Random.Range(1,3);
+
 		Rigidbody rb = GetComponent<Rigidbody>();
 		rb.AddForce((Quaternion.AngleAxis(Random.Range(-5.0f,5.0f),Vector3.right)*
 			Quaternion.AngleAxis(Random.Range(-4.0f,4.0f),Vector3.up)*
@@ -35,9 +37,12 @@ public class CannonBallImpulse : MonoBehaviour {
 			FallPiece fpScript = hitFacts.collider.GetComponent<FallPiece>();
 			if(fpScript) {
 				fpScript.BreakAndRelease(damage);
-			}/* else if(RailShotMotion.isStopShotLayer( hitFacts.gameObject.layer ) == false) {
-				Destroy(hitFacts.collider.gameObject);
-			}*/
+			} else {
+				PotentialExploder peScript = hitFacts.collider.GetComponent<PotentialExploder>();
+				if(peScript) {
+					peScript.ApplyDamage(damage);
+				}
+			}
 		}
 	}
 }
