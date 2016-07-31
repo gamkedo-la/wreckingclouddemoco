@@ -16,6 +16,10 @@ public class CameraControlFocus : MonoBehaviour {
 	public Transform rearWheelL;
 	public Transform rearWheelR;
 
+	public ParticleSystem dustEmitA;
+	public ParticleSystem dustEmitB;
+	AudioSource engineSound;
+
 	float recentHit = 0.0f;
 	Rigidbody rb;
 
@@ -37,6 +41,10 @@ public class CameraControlFocus : MonoBehaviour {
 		rb = GetComponent<Rigidbody>();
 		yankBack = transform.position;
 		recentHit = 0.0f;
+
+		if(dustEmitA) {
+			engineSound = SoundSet.PlayClipByName("Engine Loop-2", 0.3f, true);
+		}
 	}
 
 	void FixedUpdate() {
@@ -92,15 +100,25 @@ public class CameraControlFocus : MonoBehaviour {
 			if (isGrounded == false) {
 				transform.position += 40.0f * Time.deltaTime * transform.forward;
 			} else {
-				if (isGrounded && Input.GetAxis ("VerticalP2") > 0.5f) {
-					fowardPush = (isGrounded ? Input.GetAxis ("VerticalP2") : 1.0f) *
+				float vertAxis = Input.GetAxis("VerticalP2");
+				if (isGrounded && vertAxis > 0.5f) {
+					fowardPush = (isGrounded ? vertAxis : 1.0f) *
 					23.0f * Time.deltaTime * transform.forward;
 				}
-				if (isGrounded && Input.GetAxis ("VerticalP2") < 0.5f) {
-					fowardPush = (isGrounded ? -Input.GetAxis ("VerticalP2") : 1.0f) *
+				if (isGrounded && vertAxis < 0.5f) {
+					fowardPush = (isGrounded ? -vertAxis : 1.0f) *
 					-15.0f * Time.deltaTime * transform.forward;
 				}
 				rb.AddForce (fowardPush * 800.0f);
+				if(dustEmitA != null) {
+					float moveSpeed = Mathf.Abs(vertAxis);
+					engineSound.volume = 0.1f+0.15f*moveSpeed;
+					bool showParticles = (moveSpeed > 0.6f);
+					ParticleSystem.EmissionModule emitter = dustEmitA.emission;
+					emitter.enabled = showParticles;
+					emitter = dustEmitB.emission;
+					emitter.enabled = showParticles;
+				}
 			}
 			if(frontWheelL) {
 				float spinAmt = transform.InverseTransformVector(rb.velocity).z * Time.deltaTime * -7.0f;

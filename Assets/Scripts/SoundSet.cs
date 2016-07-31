@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class SoundSet : MonoBehaviour {
 	public static Dictionary<string, AudioClip> snds = new Dictionary<string, AudioClip>();
 
-	public static void PlayClipByName(string sndName, float atVol = 1.0f, bool loopIt = false) {
+	public static AudioSource PlayClipByName(string sndName, float atVol = 1.0f, bool loopIt = false) {
 		AudioClip clip;
 		if(snds.ContainsKey(sndName)) {
 			clip = snds[sndName];
@@ -15,7 +15,7 @@ public class SoundSet : MonoBehaviour {
 				clip = snds[sndName];
 			} else {
 				Debug.Log("SOUND RESOURCE NOT FOUND: "+ sndName);
-				return;
+				return null;
 			}
 		}
 
@@ -33,5 +33,6 @@ public class SoundSet : MonoBehaviour {
 		if(loopIt == false) {
 			Destroy(tempGO, clip.length/aSource.pitch); // destroy object after clip duration
 		}
+		return aSource;
 	}
 }
