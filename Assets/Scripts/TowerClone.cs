@@ -21,7 +21,7 @@ public class TowerClone : MonoBehaviour {
 	void Start() {
 		cubesWide = 3+Random.Range(0,2);
 		cubesLong = 4+Random.Range(0,2);
-		cubesTall = 5+Random.Range(0,5);
+		cubesTall = 5+Random.Range(0,6);
 
 		useTileKinds = sideCornerPrefab && topEdgePrefab && topCornerPrefab &&
 		insidePrefab && topPrefab && sidePrefab;
