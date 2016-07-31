@@ -9,6 +9,8 @@ public class ShowAtMouse : MonoBehaviour {
 	public Transform leftArmWep;
 	public Transform rightArmWep;
 
+	float maxAimRange = 700.0f;
+
 	int aimerMask;
 
 	// Use this for initialization
@@ -28,10 +30,10 @@ public class ShowAtMouse : MonoBehaviour {
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		Vector3 goalPt;
 		Quaternion targetDir;
-		if(Physics.Raycast(ray, out rhInfo, 200.0f, aimerMask)) {
+		if(Physics.Raycast(ray, out rhInfo, maxAimRange, aimerMask)) {
 			goalPt = rhInfo.point;
 		} else {
-			goalPt = Camera.main.transform.position + ray.direction * 100.0f;
+			goalPt = Camera.main.transform.position + ray.direction * maxAimRange;
 		}
 
 		Vector3 relPos = bodyTransform.InverseTransformPoint(goalPt);

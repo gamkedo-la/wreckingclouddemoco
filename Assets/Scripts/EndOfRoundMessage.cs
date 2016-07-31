@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class EndOfRoundMessage : MonoBehaviour {
 
 	public GameObject panel;
+	public bool isCombatMode = false;
 	public bool beenTriggered = false;
 	public static EndOfRoundMessage instance;
 	public Text headline;

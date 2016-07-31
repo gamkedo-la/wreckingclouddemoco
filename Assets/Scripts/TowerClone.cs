@@ -15,6 +15,9 @@ public class TowerClone : MonoBehaviour {
 	public GameObject goldPrizePrefab;
 	private bool useTileKinds;
 	private bool addToGoldList = false;
+
+	public static int blocksSinceGold = 0; // ensures rand odds don't keep us from getting too few blocks total
+
 	void Start() {
 		cubesWide = 3+Random.Range(0,2);
 		cubesLong = 4+Random.Range(0,2);
@@ -97,10 +100,13 @@ public class TowerClone : MonoBehaviour {
 								rotBy *= Quaternion.AngleAxis(-90.0f, Vector3.forward);
 							}
 						} else {
-							if (Random.Range (0, 100) < 6) {
+							if (EndOfRoundMessage.instance.isCombatMode == false && 
+								(Random.Range (0, 100) < 6 || blocksSinceGold>30)) {
 								preFabHere = goldPrizePrefab;
 								addToGoldList = true;
+								blocksSinceGold = 0;
 							} else {
+								blocksSinceGold++;
 								preFabHere = insidePrefab;	
 							}
 
