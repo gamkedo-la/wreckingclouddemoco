@@ -12,15 +12,23 @@ public class DriveWrecking : MonoBehaviour {
 	private float velFalloff = 0.92f;
 	AudioClip myDroneSnd;
 
+	private float minHeight = 25.5f;
+	private float maxHeight = 290.5f;
+
+	private Vector3 startPos;
+	private Quaternion startRot;
+
 	// Use this for initialization
 	void Start () {
 		SoundSet.PlayClipByName("DroneLoop", 1.0f, true);
+		startPos = transform.position;
+		startRot = transform.rotation;
 	}
 
 	// Update is called once per frame
 	void Update () {
 		if(isPiloting == false && EndOfRoundMessage.instance.beenTriggered == false) {
-			if(Input.GetKey(KeyCode.C)) {
+			/*if(Input.GetKey(KeyCode.C)) {
 				// transform.position += transform.forward * Time.deltaTime * 40.0f;
 				CameraControlFocus ccf = Camera.main.transform.GetComponentInParent<CameraControlFocus>();
 				ccf.enabled = false;
@@ -37,7 +45,7 @@ public class DriveWrecking : MonoBehaviour {
 					}
 				}
 				isPiloting = true;
-			}
+			}*/
 		} else if(EndOfRoundMessage.instance.beenTriggered == false) {
 			panLongV -= Input.GetAxis("Mouse Y") * 2.0f * Time.deltaTime;
 			panLatV += Input.GetAxis("Mouse X") * 3.0f * Time.deltaTime;
@@ -48,10 +56,49 @@ public class DriveWrecking : MonoBehaviour {
 			transform.position += transform.right * Input.GetAxis("Horizontal") * 12.0f * Time.deltaTime;
 			transform.position += transform.forward * Input.GetAxis("Vertical") * 25.0f * Time.deltaTime;
 
+			Vector3 pos = transform.position;
+			float terrainHereY = Terrain.activeTerrain.SampleHeight(transform.position);
+
+			pos.y = terrainHereY+maxHeight;
+			if(pos.y < transform.position.y) {
+				transform.position = pos;
+			}
+
+			pos.y = terrainHereY+minHeight;
+			if(pos.y > transform.position.y) {
+				transform.position = pos;
+			}
+
 			panLong = Mathf.Clamp(panLong, -29.5f, 29.5f);
 
 			transform.rotation = Quaternion.AngleAxis(panLat, Vector3.up)
 				* Quaternion.AngleAxis(panLong, Vector3.right);
+		}
+	}
+
+	void RestartPos() {
+		PotentialExploder myExplo = GetComponent<PotentialExploder>();
+		myExplo.BlastForce(false);
+		transform.position = startPos;
+		transform.rotation = startRot;
+	}
+
+	void OnCollisionEnter(Collision collFacts) {
+		if(collFacts.collider.gameObject.layer == LayerMask.NameToLayer("BldgPart") ||
+			collFacts.collider.gameObject.layer == LayerMask.NameToLayer("GoldPrize") ||
+			collFacts.collider.gameObject.layer == LayerMask.NameToLayer("RobotParts") ||
+			collFacts.collider.gameObject.layer == LayerMask.NameToLayer("RobotEatsShot")) {
+
+			RestartPos();
+		}
+	}
+
+	void OnTriggerEnter(Collider collWith) {
+		if(collWith.gameObject.layer == LayerMask.NameToLayer("OnlyBlockPlayer")) {
+			transform.position += collWith.transform.right * 6.0f;
+		}
+		if(collWith.gameObject.layer == LayerMask.NameToLayer("RobotParts")) {
+			RestartPos();
 		}
 	}
 

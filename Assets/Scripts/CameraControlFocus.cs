@@ -82,7 +82,7 @@ public class CameraControlFocus : MonoBehaviour {
 
 			// panLong -= Input.GetAxis("Mouse Y") * 50.0f * Time.deltaTime;
 			// panLat += Input.GetAxis("Mouse X") * 50.0f * Time.deltaTime;
-			panLat += Input.GetAxis ("HorizontalP2") * 50.0f * Time.deltaTime;
+			panLat += Input.GetAxis ("HorizontalP2") * 60.0f * Time.deltaTime;
 
 			if(frontWheelL) {
 				float spinAmtForTurn = Input.GetAxis("HorizontalP2") * Time.deltaTime * 70.0f;
@@ -109,11 +109,13 @@ public class CameraControlFocus : MonoBehaviour {
 					fowardPush = (isGrounded ? -vertAxis : 1.0f) *
 					-15.0f * Time.deltaTime * transform.forward;
 				}
-				rb.AddForce (fowardPush * 800.0f);
+				float moveSpeed = Mathf.Abs(vertAxis);
+				bool isMoving = (moveSpeed > 0.6f);
+				rb.AddForce(fowardPush * 800.0f);
+
 				if(dustEmitA != null) {
-					float moveSpeed = Mathf.Abs(vertAxis);
 					engineSound.volume = 0.1f+0.15f*moveSpeed;
-					bool showParticles = (moveSpeed > 0.6f);
+					bool showParticles = isMoving;
 					ParticleSystem.EmissionModule emitter = dustEmitA.emission;
 					emitter.enabled = showParticles;
 					emitter = dustEmitB.emission;
@@ -134,6 +136,7 @@ public class CameraControlFocus : MonoBehaviour {
 		/* transform.position += Input.GetAxis("Horizontal") * 27.0f * Time.deltaTime * transform.right +
 			(isGrounded ? Vector3.zero : Input.GetAxis("VerticalP2") * 35.0f * Time.deltaTime * Vector3.up); */
 
+		//rb.angularVelocity = Vector3.zero;
 		transform.rotation = Quaternion.AngleAxis(panLat, Vector3.up)
 			* Quaternion.AngleAxis(panLong, Vector3.right);
 	}

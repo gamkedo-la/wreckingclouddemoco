@@ -17,14 +17,14 @@ public class PotentialExploder : MonoBehaviour {
 	}
 
 	public bool didBlast = false;
-	public void BlastForce() {
+	public void BlastForce(bool doRemove=true) {
 		if(didBlast) {
 			return;
 		}
 		SoundSet.PlayClipByName("Explosion with Metal Debris", Random.Range(0.7f, 1.0f));
 		Vector3 explosionPos = transform.position;
 		Collider[] colliders = Physics.OverlapSphere(explosionPos, range);
-		didBlast = true;
+
 		foreach (Collider hit in colliders) {
 			Rigidbody rb = hit.GetComponent<Rigidbody>();
 			if(rb != null) {
@@ -51,7 +51,16 @@ public class PotentialExploder : MonoBehaviour {
 			GameObject smoke = Instantiate (smokeParticles, gameObject.transform.position, Quaternion.identity) as GameObject;
 			Destroy (smoke, 6);
 		}
-		Destroy(gameObject);
+		didBlast = true;
+		if(doRemove) {
+			Destroy(gameObject);
+		} else {
+			StartCoroutine(clearReblast());
+		}
 	}
 
+	IEnumerator clearReblast() {
+		yield return new WaitForSeconds(0.2f);
+		didBlast = false;
+	}
 }
