@@ -45,7 +45,8 @@ public class PotentialExploder : MonoBehaviour {
 		if(hiveKingPiece) {
 			EndOfRoundMessage.instance.DefeatedHive();
 		}
-		if(gameObject.layer == LayerMask.NameToLayer("Player")) {
+		if(gameObject.layer == LayerMask.NameToLayer("Player") &&
+			EndOfRoundMessage.instance.isCombatMode) {
 			doRemove = false;
 			Renderer[] allRend = gameObject.GetComponentsInChildren<Renderer>();
 			for(int i = 0; i < allRend.Length; i++) {
