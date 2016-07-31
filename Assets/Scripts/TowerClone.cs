@@ -122,11 +122,14 @@ public class TowerClone : MonoBehaviour {
 						t * transform.localScale.y * 1.01f * transform.up,
 						transform.rotation * rotBy);
 					clonedGO.transform.parent = newParent.transform;
-					if (addToGoldList) {
+					if(addToGoldList) {
 						GoldGoalTracker.AddTargetGoldTalley(clonedGO.gameObject);
 						addToGoldList = false;
-					} else	if(Random.Range(0, 255) < 2) {
+					} else if(Random.Range(0, 255) < 2) {
 						clonedGO.layer = LayerMask.NameToLayer("Explosive");
+					} else {
+						PotentialExploder peScript = clonedGO.GetComponent<PotentialExploder>();
+						Destroy(peScript);
 					}
 					TowerClone wasTC = clonedGO.GetComponent<TowerClone>();
 					if(wasTC) {

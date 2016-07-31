@@ -21,6 +21,14 @@ public class ShowAtMouse : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if( EndOfRoundMessage.instance.beenTriggered ) {
+			if(Cursor.lockState != CursorLockMode.None) {
+				Cursor.lockState = CursorLockMode.None;
+				Cursor.visible = true;
+				aimer.enabled = false;
+			}
+			return;
+		}
 		if(Cursor.lockState == CursorLockMode.Locked) {
 			Cursor.lockState = CursorLockMode.Confined;
 			Cursor.visible = false;

@@ -136,7 +136,7 @@ function AddJointPhysics(n : int)
 {
 	joints[n] = new GameObject("Joint_" + n);
 	joints[n].transform.parent = transform;
-	//joints[n].gameObject.layer = LayerMask.NameToLayer("RopeMesh");
+	joints[n].gameObject.layer = LayerMask.NameToLayer("Player");
 	var rigid : Rigidbody = joints[n].AddComponent.<Rigidbody>();
 	if(!useMeshCollision) {
 		 var col : SphereCollider = joints[n].AddComponent.<SphereCollider>();

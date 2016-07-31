@@ -3,9 +3,9 @@ using System.Collections;
 
 public class SpinBarrel : MonoBehaviour {
 	float spinPower = 0.0f;
-	float slowDownDecay = 0.955f;
+	float slowDownDecay = 0.98f;
 	float shotsReady = 0;
-	float minSpinToFire = 400.0f;
+	float minSpinToFire = 500.0f;
 	bool spinningUp = false;
 
 	// Use this for initialization
@@ -22,7 +22,7 @@ public class SpinBarrel : MonoBehaviour {
 	}
 
 	public bool FastEnoughToFire() {
-		return spinPower > minSpinToFire;
+		return spinPower >= minSpinToFire;
 	}
 
 	public void spinTorque(bool powered) {
@@ -31,7 +31,11 @@ public class SpinBarrel : MonoBehaviour {
 
 	void FixedUpdate() {
 		if(spinningUp) {
-			spinPower += 1000.0f;
+			spinPower += 30.0f;
+			float maxSpin = minSpinToFire;
+			if(spinPower > maxSpin) {
+				spinPower = maxSpin;
+			}
 		} else {
 			spinPower *= slowDownDecay;
 		}
