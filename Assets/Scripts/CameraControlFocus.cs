@@ -78,11 +78,11 @@ public class CameraControlFocus : MonoBehaviour {
 			transform.position += pos - transform.position + 
 				(isGrounded ? Vector3.down*8.0f : Vector3.zero);
 		}
-		if (EndOfRoundMessage.instance.beenTriggered == false) {
+		if(EndOfRoundMessage.instance.beenTriggered == false) {
 
 			// panLong -= Input.GetAxis("Mouse Y") * 50.0f * Time.deltaTime;
 			// panLat += Input.GetAxis("Mouse X") * 50.0f * Time.deltaTime;
-			panLat += Input.GetAxis ("HorizontalP2") * 60.0f * Time.deltaTime;
+			panLat += Input.GetAxis("HorizontalP2") * 60.0f * Time.deltaTime;
 
 			if(frontWheelL) {
 				float spinAmtForTurn = Input.GetAxis("HorizontalP2") * Time.deltaTime * 70.0f;
@@ -97,15 +97,15 @@ public class CameraControlFocus : MonoBehaviour {
 
 			Vector3 fowardPush = Vector3.zero;
 
-			if (isGrounded == false) {
+			if(isGrounded == false) {
 				transform.position += 40.0f * Time.deltaTime * transform.forward;
 			} else {
 				float vertAxis = Input.GetAxis("VerticalP2");
-				if (isGrounded && vertAxis > 0.5f) {
+				if(isGrounded && vertAxis > 0.5f) {
 					fowardPush = (isGrounded ? vertAxis : 1.0f) *
 					23.0f * Time.deltaTime * transform.forward;
 				}
-				if (isGrounded && vertAxis < 0.5f) {
+				if(isGrounded && vertAxis < 0.5f) {
 					fowardPush = (isGrounded ? -vertAxis : 1.0f) *
 					-15.0f * Time.deltaTime * transform.forward;
 				}
@@ -114,7 +114,7 @@ public class CameraControlFocus : MonoBehaviour {
 				rb.AddForce(fowardPush * 800.0f);
 
 				if(dustEmitA != null) {
-					engineSound.volume = 0.1f+0.15f*moveSpeed;
+					engineSound.volume = 0.1f + 0.15f * moveSpeed;
 					bool showParticles = isMoving;
 					ParticleSystem.EmissionModule emitter = dustEmitA.emission;
 					emitter.enabled = showParticles;
@@ -128,6 +128,13 @@ public class CameraControlFocus : MonoBehaviour {
 				frontWheelR.Rotate(Vector3.forward, spinAmt);
 				rearWheelL.Rotate(Vector3.forward, spinAmt);
 				rearWheelR.Rotate(Vector3.forward, spinAmt);
+			}
+		} else {
+			if(dustEmitA != null) {
+				ParticleSystem.EmissionModule emitter2 = dustEmitA.emission;
+				emitter2.enabled = false;
+				emitter2 = dustEmitB.emission;
+				emitter2.enabled = false;
 			}
 		}
 		panLong = Mathf.Clamp(panLong, -89.5f,isGrounded ? 10.0f : 89.5f);

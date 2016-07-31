@@ -3,12 +3,12 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class BuildingHealthDisplay : MonoBehaviour {
-	public PotentialExploder ShinyBall;
-	public PotentialExploder BoxyTree;
-	public PotentialExploder Resort;
+	public PotentialExploder Player;
 
 	private bool roundSummaryShownYet = false;
 	private Text display;
+
+	private int skipFirstFrames = 3;
 
 	// Use this for initialization
 	void Start () {
@@ -25,6 +25,10 @@ public class BuildingHealthDisplay : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(skipFirstFrames > 0) { // allows hive counter to populate
+			skipFirstFrames--;
+			return;
+		}
 		if(roundSummaryShownYet) {
 			return;
 		}
@@ -42,17 +46,18 @@ public class BuildingHealthDisplay : MonoBehaviour {
 		}
 		timeSurvived += ""+secSurvived;
 
-		display.text = ShowIfAround("Chrosph", ShinyBall) +"\n"+
-			ShowIfAround("Rectree", BoxyTree) +"\n" +
-			ShowIfAround("Sailco", Resort) +"\n" +
-			"Time defended: " + timeSurvived;
+		display.text = ShowIfAround("Player Health", Player) +"\n"+
+			"HIVES REMAINING: "+EndOfRoundMessage.instance.hiveCount +"\n" +
+			"Time taken: " + timeSurvived;
 
-		if(ShinyBall.hitPoints <= 0 &&
-			BoxyTree.hitPoints <= 0 &&
-			Resort.hitPoints <= 0) {
-
+		if(Player.hitPoints <= 0 ||
+			EndOfRoundMessage.instance.hiveCount <= 0) {
 			roundSummaryShownYet = true;
-			EndOfRoundMessage.instance.OpenPanel("You defended the buildings for " + timeSurvived);
+			if(Player.hitPoints <= 0) {
+				EndOfRoundMessage.instance.OpenPanel("You lost, but survived for " + timeSurvived);
+			} else {
+				EndOfRoundMessage.instance.OpenPanel("You won! All hives cleared in: " + timeSurvived);
+			}
 		}
 	}
 }

@@ -4,7 +4,6 @@ using System.Collections;
 public class SpinBarrel : MonoBehaviour {
 	float spinPower = 0.0f;
 	float slowDownDecay = 0.98f;
-	float shotsReady = 0;
 	float minSpinToFire = 500.0f;
 	bool spinningUp = false;
 

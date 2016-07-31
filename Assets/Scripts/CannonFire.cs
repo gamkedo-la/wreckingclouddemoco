@@ -62,7 +62,11 @@ public class CannonFire : MonoBehaviour {
 
 	void Shoot () {
 		if(fireSoundName.Length > 1) {
-			SoundSet.PlayClipByName(fireSoundName, Random.Range(0.9f, 1.0f));
+			if(gameObject.layer == LayerMask.NameToLayer("Player")) {
+				SoundSet.PlayClipByName(fireSoundName, Random.Range(0.9f, 1.0f));
+			} else {
+				SoundSet.PlayClipByName(fireSoundName, Random.Range(0.2f, 0.3f));
+			}
 		}
 		GameObject.Instantiate(spawnAttackPrefab, fireFrom.position, fireFrom.rotation);
 	}
@@ -79,7 +83,11 @@ public class CannonFire : MonoBehaviour {
 
 		bool triggerNow;
 
-		if(triggerKey != KeyCode.None) {
+		if(triggerKey == KeyCode.F15) {
+			triggerNow = true;
+		} else if(triggerKey == KeyCode.F14) {
+			triggerNow = Random.Range(0,200)<3;
+		} else if(triggerKey != KeyCode.None) {
 			triggerNow = ((autoFire == false && Input.GetKeyDown(triggerKey)) ||
 				(autoFire && Input.GetKey(triggerKey)));
 		} else {

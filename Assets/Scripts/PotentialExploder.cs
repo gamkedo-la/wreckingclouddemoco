@@ -12,6 +12,7 @@ public class PotentialExploder : MonoBehaviour {
 
 	public int hitPoints = 20;
 	private int maxHP = 20;
+	public bool hiveKingPiece = false;
 
 	int explodeLayer;
 
@@ -22,12 +23,16 @@ public class PotentialExploder : MonoBehaviour {
 
 	public string HealthPerc() {
 		int fakePerc = 100 * hitPoints / maxHP;
+		if(fakePerc < 0) {
+			fakePerc = 0;
+		}
 		return ""+fakePerc+"%";
 	}
 
 	public void ApplyDamage(int thisMany) {
 		hitPoints -= thisMany;
 		if(hitPoints < 0) {
+			hitPoints = 0;
 			BlastForce();
 		}
 	}
@@ -36,6 +41,16 @@ public class PotentialExploder : MonoBehaviour {
 	public void BlastForce(bool doRemove=true) {
 		if(didBlast) {
 			return;
+		}
+		if(hiveKingPiece) {
+			EndOfRoundMessage.instance.DefeatedHive();
+		}
+		if(gameObject.layer == LayerMask.NameToLayer("Player")) {
+			doRemove = false;
+			Renderer[] allRend = gameObject.GetComponentsInChildren<Renderer>();
+			for(int i = 0; i < allRend.Length; i++) {
+				allRend[i].enabled = false;
+			}
 		}
 		didBlast = true;
 		SoundSet.PlayClipByName("Explosion with Metal Debris", Random.Range(0.7f, 1.0f));
@@ -67,11 +82,11 @@ public class PotentialExploder : MonoBehaviour {
 		}
 		if (fireParticles) {
 			GameObject fire = Instantiate (fireParticles, gameObject.transform.position, Quaternion.identity) as GameObject;
-			Destroy (fire, 6);
+			Destroy (fire, 10);
 		}
 		if (smokeParticles) {
 			GameObject smoke = Instantiate (smokeParticles, gameObject.transform.position, Quaternion.identity) as GameObject;
-			Destroy (smoke, 6);
+			Destroy (smoke, 10);
 		}
 		if(doRemove) {
 			Destroy(gameObject);

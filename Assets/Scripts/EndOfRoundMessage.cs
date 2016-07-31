@@ -9,6 +9,8 @@ public class EndOfRoundMessage : MonoBehaviour {
 	public bool beenTriggered = false;
 	public static EndOfRoundMessage instance;
 	public Text headline;
+	public int hiveCount = 0;
+
 	// Use this for initialization
 	void Start () {
 		instance = this;
@@ -23,6 +25,10 @@ public class EndOfRoundMessage : MonoBehaviour {
 		headline.text = endHeadline;
 		panel.SetActive(true);
 
+	}
+
+	public void DefeatedHive() {
+		hiveCount--;
 	}
 
 	public void ResetScene(){

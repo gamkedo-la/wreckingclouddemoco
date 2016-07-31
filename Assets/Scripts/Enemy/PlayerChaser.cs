@@ -76,9 +76,11 @@ public class PlayerChaser : MonoBehaviour {
 		}
 
 		if(isGrounded) {
-			Vector3 tempPos = transform.position;
-			tempPos.y = Terrain.activeTerrain.SampleHeight(Camera.main.transform.position)+6.5f;
-			transform.position = tempPos;
+			Vector3 pos = transform.position;
+			pos.y = Terrain.activeTerrain.SampleHeight(transform.position)+15.5f;
+			if(pos.y > transform.position.y) {
+				transform.position += pos - transform.position + Vector3.down*8.0f;
+			}
 		}
 		if (Input.GetKeyDown (KeyCode.P)) {
 			Destroy (gameObject);

@@ -17,6 +17,8 @@ public class TowerClone : MonoBehaviour {
 	private bool addToGoldList = false;
 
 	public static int blocksSinceGold = 0; // ensures rand odds don't keep us from getting too few blocks total
+	public static int bldgSinceHive = 0;
+	private bool isHive = false;
 
 	void Start() {
 		cubesWide = 3+Random.Range(0,2);
@@ -29,6 +31,20 @@ public class TowerClone : MonoBehaviour {
 
 	// Use this for initialization
 	void LateUpdate () {
+		if(EndOfRoundMessage.instance.isCombatMode) {
+			bldgSinceHive++;
+			if(bldgSinceHive > Random.Range(2, 3)) {
+				isHive = true;
+				EndOfRoundMessage.instance.hiveCount++;
+				bldgSinceHive = 0;
+			}
+		} else {
+			isHive = false;
+		}
+
+		bool hiveKingPiecePlaced = false;
+		bool placeKingHere = false;
+
 		GameObject newParent = new GameObject(name);
 		for(int w = 0; w < cubesWide; w++) {
 			for(int l = 0; l < cubesLong; l++) {
@@ -108,6 +124,9 @@ public class TowerClone : MonoBehaviour {
 							} else {
 								blocksSinceGold++;
 								preFabHere = insidePrefab;	
+								if(isHive && hiveKingPiecePlaced==false) {
+									placeKingHere = true;
+								}
 							}
 
 							rotBy = Quaternion.AngleAxis(
@@ -122,15 +141,27 @@ public class TowerClone : MonoBehaviour {
 						t * transform.localScale.y * 1.01f * transform.up,
 						transform.rotation * rotBy);
 					clonedGO.transform.parent = newParent.transform;
+					PotentialExploder peScript = clonedGO.GetComponent<PotentialExploder>();
+
 					if(addToGoldList) {
 						GoldGoalTracker.AddTargetGoldTalley(clonedGO.gameObject);
 						addToGoldList = false;
-					} else if(Random.Range(0, 255) < 2) {
+					} /*else if(Random.Range(0, 255) < 2) {
 						clonedGO.layer = LayerMask.NameToLayer("Explosive");
-					} else {
-						PotentialExploder peScript = clonedGO.GetComponent<PotentialExploder>();
+					} else*/ if(isHive == false) {
 						Destroy(peScript);
 					}
+
+					if(isHive) {
+						Rigidbody rb = clonedGO.GetComponent<Rigidbody>();
+						rb.isKinematic = true;
+						if(placeKingHere) {
+							placeKingHere = false;
+							hiveKingPiecePlaced = true;
+							peScript.hiveKingPiece = true;
+						}
+					}
+
 					TowerClone wasTC = clonedGO.GetComponent<TowerClone>();
 					if(wasTC) {
 						wasTC.enabled = false;

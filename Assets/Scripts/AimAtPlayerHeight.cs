@@ -3,26 +3,24 @@ using System.Collections;
 
 public class AimAtPlayerHeight : MonoBehaviour {
 	Vector3 aimTargetPos;
-	float aimY;
+	Transform target;
+
 	// Use this for initialization
 	void Start () {
-		aimTargetPos = transform.position + transform.forward * 30.0f;
-		aimTargetPos.y = aimY;
-		aimY = Camera.main.transform.position.y;
+		target = Camera.main.transform.parent;
+		aimTargetPos = target.position;
 	}
 
 	// Update is called once per frame
 	void Update () {
 		transform.rotation = Quaternion.Slerp(transform.rotation,
-			Quaternion.LookRotation(aimTargetPos-transform.position), Time.deltaTime * 1.0f);
+			Quaternion.LookRotation(aimTargetPos-transform.position), Time.deltaTime * 4.0f);
 	}
 
 	void FixedUpdate() {
-		float chaseK = 0.992f;
+		float chaseK = 0.965f;
 
-		aimTargetPos = transform.position + transform.forward * 30.0f;
-		aimY = aimY * chaseK +
-			Camera.main.transform.position.y * (1.0f - chaseK);
-		aimTargetPos.y = aimY;
+		aimTargetPos = aimTargetPos * chaseK +
+			(target.position+Vector3.up*5.0f) * (1.0f - chaseK);
 	}
 }
