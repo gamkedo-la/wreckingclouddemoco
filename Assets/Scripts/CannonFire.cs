@@ -13,6 +13,10 @@ public class CannonFire : MonoBehaviour {
 	float reloadLeft = 0.0f;
 
 	public Material reloadMat;
+	Light orbGlow;
+
+	public Light shootFlash;
+
 	private Text rechargeUI;
 	private string baseReloadMsg;
 
@@ -22,8 +26,19 @@ public class CannonFire : MonoBehaviour {
 	public Transform fireParticleParent;
 	private ParticleSystem[] fireParticles;
 
+	IEnumerator strobeFireLight() {
+		shootFlash.enabled = true;
+		yield return new WaitForSeconds(reloadDelay * 0.3f);
+		shootFlash.enabled = false;
+	}
+
 	// Use this for initialization
 	void Start () {
+		orbGlow = GetComponent<Light>();
+		if(shootFlash) {
+			shootFlash.enabled = false;
+		}
+
 		fireFrom = transform.Find("FireFrom");
 		if(reloadMat) {
 			reloadMat.color = Color.cyan;
@@ -57,6 +72,10 @@ public class CannonFire : MonoBehaviour {
 			tempGO.transform.parent = chargeEffectLoc;
 		}
 		yield return new WaitForSeconds(2.0f);
+		if(ScreenShaker_Tank.instance) {
+			ScreenShaker_Tank.instance.BlastShake(40.0f);
+			ScreenShaker_Hover.instance.BlastShake(40.0f);
+		}
 		GameObject.Instantiate(spawnAttackPrefab, fireFrom.position, fireFrom.rotation);
 	}
 
@@ -75,6 +94,10 @@ public class CannonFire : MonoBehaviour {
 	void Update () {
 		if(reloadLeft <= 0.0f && reloadMat) {
 			reloadMat.color = Color.Lerp(Color.black, Color.cyan, 0.8f + 0.2f*Mathf.Cos(Time.timeSinceLevelLoad*3.0f));
+		}
+		if(orbGlow) {
+			orbGlow.color = reloadMat.color;
+			orbGlow.intensity = reloadMat.color.grayscale * 1.0f;
 		}
 
 		if(reloadLeft > 0.0f) {
@@ -117,6 +140,9 @@ public class CannonFire : MonoBehaviour {
 								}
 							}
 							Shoot();
+							if(shootFlash) {
+								StartCoroutine(strobeFireLight());
+							}
 							if(ScreenShaker.instance) {
 								ScreenShaker.instance.BlastShake(0.2f);
 							}

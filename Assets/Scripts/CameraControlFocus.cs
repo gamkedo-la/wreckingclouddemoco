@@ -90,6 +90,9 @@ public class CameraControlFocus : MonoBehaviour {
 				frontWheelR.Rotate(Vector3.forward, spinAmtForTurn);
 				rearWheelL.Rotate(Vector3.forward, -spinAmtForTurn);
 				rearWheelR.Rotate(Vector3.forward, spinAmtForTurn);
+				if(ScreenShaker_Tank.instance) {
+					ScreenShaker_Tank.instance.BlastShake( Mathf.Abs(Input.GetAxis("HorizontalP2")) * 0.85f );
+				}
 			}
 
 			//zoomIn -= Input.GetAxis("Mouse ScrollWheel") * 80.0f * Time.deltaTime;
@@ -112,6 +115,12 @@ public class CameraControlFocus : MonoBehaviour {
 				float moveSpeed = Mathf.Abs(vertAxis);
 				bool isMoving = (moveSpeed > 0.6f);
 				rb.AddForce(fowardPush * 800.0f);
+
+				if(isMoving) {
+					if(ScreenShaker_Tank.instance) {
+						ScreenShaker_Tank.instance.BlastShake(0.85f);
+					}
+				}
 
 				if(dustEmitA != null) {
 					engineSound.volume = 0.1f + 0.15f * moveSpeed;

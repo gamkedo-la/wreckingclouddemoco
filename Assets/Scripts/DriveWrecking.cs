@@ -3,6 +3,9 @@ using System.Collections;
 
 public class DriveWrecking : MonoBehaviour {
 	public bool isPiloting = true;
+	public GameObject respawnEffect;
+	public Material dangerLightMat;
+	Light dangerLightGlow;
 
 	public float panLong;
 	public float panLat;
@@ -20,6 +23,7 @@ public class DriveWrecking : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		dangerLightGlow = GetComponent<Light>();
 		SoundSet.PlayClipByName("DroneLoop", 1.0f, true);
 		startPos = transform.position;
 		startRot = transform.rotation;
@@ -27,6 +31,12 @@ public class DriveWrecking : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+		float pulseLight = Mathf.Abs(Mathf.Cos( Time.realtimeSinceStartup * 4.0f ));
+		pulseLight *= pulseLight;
+		dangerLightMat.color = Color.Lerp(Color.black, Color.red, pulseLight);;
+		dangerLightGlow.intensity = pulseLight * 10.0f;
+
 		if(isPiloting == false && EndOfRoundMessage.instance.beenTriggered == false) {
 			/*if(Input.GetKey(KeyCode.C)) {
 				// transform.position += transform.forward * Time.deltaTime * 40.0f;
@@ -81,6 +91,12 @@ public class DriveWrecking : MonoBehaviour {
 		myExplo.BlastForce(false);
 		transform.position = startPos;
 		transform.rotation = startRot;
+		if(ScreenShaker_Hover.instance) {
+			ScreenShaker_Hover.instance.BlastShake(10.0f);
+			ScreenShaker_Tank.instance.BlastShake(10.0f);
+		}
+		GameObject tempGO = GameObject.Instantiate(respawnEffect, transform.position, Quaternion.identity) as GameObject;
+		Destroy(tempGO, 10.0f);
 	}
 
 	void OnCollisionEnter(Collision collFacts) {

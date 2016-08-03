@@ -152,7 +152,7 @@ public class TowerClone : MonoBehaviour {
 						addToGoldList = false;
 					} /*else if(Random.Range(0, 255) < 2) {
 						clonedGO.layer = LayerMask.NameToLayer("Explosive");
-					} else*/ if(isHive == false) {
+					}*/ else if(isHive == false) {
 						Destroy(peScript);
 					}
 

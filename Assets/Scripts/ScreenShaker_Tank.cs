@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ScreenShaker : MonoBehaviour {
-	public static ScreenShaker instance;
+public class ScreenShaker_Tank : MonoBehaviour {
+	public static ScreenShaker_Tank instance;
 	float shakeAmt = 0.0f;
-	float decayRate = 0.93f;
-	float MAX_POWER = 70.0f;
+	float decayRate = 0.87f;
+	float MAX_POWER = 30.0f;
 	Vector3 startLocalPos;
 	Quaternion startLocalRot;
 
@@ -16,8 +16,8 @@ public class ScreenShaker : MonoBehaviour {
 	}
 
 	void Update() {
-		transform.localPosition = startLocalPos + Random.insideUnitSphere * shakeAmt * 0.0125f;
-		float rotAmt = Random.Range(-1.0f,1.0f) * shakeAmt * 0.1f;
+		transform.localPosition = startLocalPos + Random.insideUnitSphere * shakeAmt * 0.0025f;
+		float rotAmt = Random.Range(-1.0f,1.0f) * shakeAmt * 0.02f;
 		transform.localRotation = startLocalRot;
 		transform.localRotation *= Quaternion.AngleAxis(rotAmt, Vector3.up);
 		transform.localRotation *= Quaternion.AngleAxis(rotAmt, Vector3.right);

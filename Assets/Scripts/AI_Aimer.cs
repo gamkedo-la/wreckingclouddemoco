@@ -23,7 +23,6 @@ public class AI_Aimer : MonoBehaviour {
 			return;
 		}
 
-		RaycastHit rhInfo;
 		Vector3 goalPt;
 		Quaternion targetDir;
 		goalPt = target.position;

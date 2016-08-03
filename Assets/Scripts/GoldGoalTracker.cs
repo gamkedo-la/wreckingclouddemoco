@@ -63,17 +63,17 @@ public class GoldGoalTracker : MonoBehaviour {
 	static void UpdateScoreText() {
 		int blocksLeft = (numberTotal - numberEnemiesGot - numberPlayerGot);
 		if(scoreToShow) {
-			scoreToShow.text = ""+numberPlayerGot+" earned\n"+blocksLeft+" reactors left" 
+			scoreToShow.text = ""+numberPlayerGot+" collected by you\n"+blocksLeft+" reactor"+(blocksLeft==1 ? "" : "s")+" remaining" 
 				+ "\n" + numberEnemiesGot + " in enemy hands";
 		}
 		if (blocksLeft == 0) {
 			string headline = "";
 			if (numberPlayerGot > numberEnemiesGot) {
-				headline = "You win!";
+				headline = "You won! You collected more reactors than the Juggernaut!";
 			} else if (numberEnemiesGot > numberPlayerGot) {
-				headline = "You lose!";
+				headline = "You lost! The Juggernaut collected more reactors!";
 			} else {
-				headline = "You tied!";
+				headline = "It was a draw! Try to get more reactors next time!";
 			}
 			EndOfRoundMessage.instance.OpenPanel (headline);
 		}

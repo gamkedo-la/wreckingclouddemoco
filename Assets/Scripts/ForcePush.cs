@@ -12,6 +12,10 @@ public class ForcePush : MonoBehaviour {
 
 		for(int i = 0; i < list.Length; i++) {
 			if(list[i].gameObject.layer == goldLayer) {
+				PotentialExploder peScript = list[i].gameObject.GetComponent<PotentialExploder>();
+				if(peScript) {
+					peScript.BlastForce(false);
+				}
 				GoldGoalTracker.AddPlayerGold(list[i].gameObject);
 			} else {
 				Rigidbody rb = list[i].GetComponent<Rigidbody>();
