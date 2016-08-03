@@ -32,6 +32,16 @@ public class CannonFire : MonoBehaviour {
 		shootFlash.enabled = false;
 	}
 
+	IEnumerator fallOffLight() {
+		shootFlash.enabled = true;
+		shootFlash.intensity = 4.0f;
+		while(shootFlash.intensity > 0.1f) {
+			shootFlash.intensity -= 0.3f;
+			yield return new WaitForSeconds(0.07f);
+		}
+		shootFlash.enabled = false;
+	}
+
 	// Use this for initialization
 	void Start () {
 		orbGlow = GetComponent<Light>();
@@ -72,6 +82,9 @@ public class CannonFire : MonoBehaviour {
 			tempGO.transform.parent = chargeEffectLoc;
 		}
 		yield return new WaitForSeconds(2.0f);
+		if(shootFlash) {
+			StartCoroutine(fallOffLight());
+		}
 		if(ScreenShaker_Tank.instance) {
 			ScreenShaker_Tank.instance.BlastShake(40.0f);
 			ScreenShaker_Hover.instance.BlastShake(40.0f);
@@ -80,6 +93,10 @@ public class CannonFire : MonoBehaviour {
 	}
 
 	void Shoot () {
+		if(shootFlash) {
+			StartCoroutine(strobeFireLight());
+		}
+
 		if(fireSoundName.Length > 1) {
 			if(gameObject.layer == LayerMask.NameToLayer("Player")) {
 				SoundSet.PlayClipByName(fireSoundName, Random.Range(0.9f, 1.0f));
@@ -140,9 +157,7 @@ public class CannonFire : MonoBehaviour {
 								}
 							}
 							Shoot();
-							if(shootFlash) {
-								StartCoroutine(strobeFireLight());
-							}
+
 							if(ScreenShaker.instance) {
 								ScreenShaker.instance.BlastShake(0.2f);
 							}

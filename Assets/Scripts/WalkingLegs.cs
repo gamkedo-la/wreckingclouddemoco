@@ -8,6 +8,8 @@ public class WalkingLegs : MonoBehaviour {
 
 	public Transform[] upperBody;
 
+	bool lastSteppedLeft = true;
+
 	private Vector3 localRelLeft;
 	private Vector3 localRelRight;
 	private List<Vector3> localUpperBody = new List<Vector3>();
@@ -15,6 +17,7 @@ public class WalkingLegs : MonoBehaviour {
 	private Vector3 prevPos;
 	private float distWalkedTotal;
 	private float walkVertPerc = 0.0f;
+	float footShakeMult = 3.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -54,11 +57,27 @@ public class WalkingLegs : MonoBehaviour {
 		if(leftOffset.y > 0.0f) {
 			leftOffset.y *= walkVertPerc;
 		} else {
+			if(lastSteppedLeft) {
+				if(ScreenShaker_Tank.instance) {
+					ScreenShaker_Tank.instance.BlastShake(1.0f * footShakeMult);
+					ScreenShaker_Hover.instance.BlastShake(0.5f * footShakeMult);
+				}
+				SoundSet.PlayClipByName("robostep", 0.15f);
+				lastSteppedLeft = false;
+			}
 			leftOffset.y = 0.0f;
 		}
 		if(rightOffset.y > 0.0f) {
 			rightOffset.y *= walkVertPerc;
 		} else {
+			if(lastSteppedLeft==false) {
+				if(ScreenShaker_Tank.instance) {
+					ScreenShaker_Tank.instance.BlastShake(1.0f * footShakeMult);
+					ScreenShaker_Hover.instance.BlastShake(0.5f * footShakeMult);
+				}
+				SoundSet.PlayClipByName("robostep", 0.15f);
+				lastSteppedLeft = true;
+			}
 			rightOffset.y = 0.0f;
 		}
 
