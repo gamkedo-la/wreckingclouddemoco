@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PotentialExploder : MonoBehaviour {
 	// explosion
-	float range = 8.0f;
+	public float range = 8.0f;
 	float power = 2500.0f;
 	float upwardsPowerBoost = 3.0f;
 	public GameObject fireParticles;
@@ -13,6 +13,7 @@ public class PotentialExploder : MonoBehaviour {
 	public int hitPoints = 20;
 	private int maxHP = 20;
 	public bool hiveKingPiece = false;
+	public bool onlySoundIfKing = false;
 
 	int explodeLayer;
 
@@ -54,7 +55,9 @@ public class PotentialExploder : MonoBehaviour {
 			}
 		}
 		didBlast = true;
-		SoundSet.PlayClipByName("Explosion with Metal Debris", Random.Range(0.7f, 1.0f));
+		if(onlySoundIfKing == false || hiveKingPiece) {
+			SoundSet.PlayClipByName("Explosion with Metal Debris", Random.Range(0.7f, 1.0f));
+		}
 		Vector3 explosionPos = transform.position;
 		Collider[] colliders = Physics.OverlapSphere(explosionPos, range);
 
