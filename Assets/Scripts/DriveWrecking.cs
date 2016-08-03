@@ -57,7 +57,7 @@ public class DriveWrecking : MonoBehaviour {
 				isPiloting = true;
 			}*/
 		} else if(EndOfRoundMessage.instance.beenTriggered == false) {
-			panLongV -= Input.GetAxis("Mouse Y") * 2.0f * Time.deltaTime;
+			// panLongV -= Input.GetAxis("Mouse Y") * 2.0f * Time.deltaTime;
 			panLatV += Input.GetAxis("Mouse X") * 3.0f * Time.deltaTime;
 
 			panLong += panLongV;
@@ -65,6 +65,7 @@ public class DriveWrecking : MonoBehaviour {
 
 			transform.position += transform.right * Input.GetAxis("Horizontal") * 12.0f * Time.deltaTime;
 			transform.position += transform.forward * Input.GetAxis("Vertical") * 25.0f * Time.deltaTime;
+			transform.position += Vector3.up * Input.GetAxis("Mouse Y") * 2.0f * Time.deltaTime;
 
 			Vector3 pos = transform.position;
 			float terrainHereY = Terrain.activeTerrain.SampleHeight(transform.position);

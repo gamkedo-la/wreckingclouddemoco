@@ -50,11 +50,11 @@ public class BuildingHealthDisplay : MonoBehaviour {
 			"HIVES REMAINING: "+EndOfRoundMessage.instance.hiveCount +"\n" +
 			"Time taken: " + timeSurvived;
 
-		if(Player.hitPoints <= 0 ||
+		if(Player.didBlast ||
 			EndOfRoundMessage.instance.hiveCount <= 0) {
 			roundSummaryShownYet = true;
-			if(Player.hitPoints <= 0) {
-				EndOfRoundMessage.instance.OpenPanel("You lost, but survived for " + timeSurvived);
+			if(Player.didBlast) {
+				EndOfRoundMessage.instance.OpenPanel("You lost, but survived for: " + timeSurvived);
 			} else {
 				EndOfRoundMessage.instance.OpenPanel("You won! All hives cleared in: " + timeSurvived);
 			}

@@ -59,7 +59,7 @@ public class PotentialExploder : MonoBehaviour {
 		}
 		didBlast = true;
 		if(onlySoundIfKing == false || hiveKingPiece) {
-			SoundSet.PlayClipByName("Explosion with Metal Debris", Random.Range(0.7f, 1.0f));
+			SoundSet.PlayClipByName("Explosion with Metal Debris", Random.Range(0.4f, 0.7f));
 		}
 		Vector3 explosionPos = transform.position;
 		Collider[] colliders = Physics.OverlapSphere(explosionPos, range);
