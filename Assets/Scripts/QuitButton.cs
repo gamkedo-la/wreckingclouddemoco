@@ -11,7 +11,14 @@ public class QuitButton : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Escape)) {
-			Application.Quit();
+			if(Application.loadedLevel != 0) {
+				Cursor.lockState = CursorLockMode.None;
+				Cursor.visible = true;
+
+				Application.LoadLevel(0);
+			} else {
+				Application.Quit();
+			}
 		}
 	}
 }

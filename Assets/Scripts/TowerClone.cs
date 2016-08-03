@@ -17,7 +17,7 @@ public class TowerClone : MonoBehaviour {
 	private bool addToGoldList = false;
 
 	public static int blocksSinceGold = 0; // ensures rand odds don't keep us from getting too few blocks total
-	public static int bldgSinceHive = 0;
+	public static int bldgSinceHive = -1;
 	private bool isHive = false;
 
 	void Start() {
@@ -27,13 +27,17 @@ public class TowerClone : MonoBehaviour {
 
 		useTileKinds = sideCornerPrefab && topEdgePrefab && topCornerPrefab &&
 		insidePrefab && topPrefab && sidePrefab;
+
+		if(bldgSinceHive == -1) {
+			bldgSinceHive = Random.Range(0, 3);
+		}
 	}
 
 	// Use this for initialization
 	void LateUpdate () {
 		if(EndOfRoundMessage.instance.isCombatMode) {
 			bldgSinceHive++;
-			if(bldgSinceHive > Random.Range(2, 3)) {
+			if(bldgSinceHive > Random.Range(1, 3)) {
 				isHive = true;
 				EndOfRoundMessage.instance.hiveCount++;
 				bldgSinceHive = 0;

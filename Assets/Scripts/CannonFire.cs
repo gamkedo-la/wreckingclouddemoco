@@ -117,6 +117,9 @@ public class CannonFire : MonoBehaviour {
 								}
 							}
 							Shoot();
+							if(ScreenShaker.instance) {
+								ScreenShaker.instance.BlastShake(0.2f);
+							}
 						}
 					} else { // simpler when no spinning barrel
 						Shoot();

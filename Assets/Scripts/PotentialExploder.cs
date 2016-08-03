@@ -43,6 +43,9 @@ public class PotentialExploder : MonoBehaviour {
 		if(didBlast) {
 			return;
 		}
+		if(ScreenShaker.instance != null) {
+			ScreenShaker.instance.BlastShake(damage);
+		}
 		if(hiveKingPiece) {
 			EndOfRoundMessage.instance.DefeatedHive();
 		}
